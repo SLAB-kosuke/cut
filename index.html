@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>設備点検表</title>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f4f6f9;
+    margin:20px;
+}
+
+h1,h2{
+    margin-bottom:10px;
+}
+
+.container{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom:20px;
+}
+
+.top-area{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-top:15px;
+}
+
+input,select{
+    padding:8px;
+    border-radius:6px;
+    border:1px solid #ccc;
+}
+
+button{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:6px;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+button:hover{
+    opacity:0.9;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+}
+
+th,td{
+    border:1px solid #ddd;
+    padding:8px;
+    text-align:center;
+}
+
+th{
+    background:#1e293b;
+    color:white;
+}
+
+.section{
+    background:#334155;
+    color:white;
+    font-weight:bold;
+}
+
+.month-table td{
+    font-size:12px;
+}
+
+.memo{
+    width:95%;
+}
+
+#monthlyArea{
+    display:none;
+    margin-top:20px;
+}
+
+.memo-row{
+    background:#fff8dc;
+    text-align:left;
+}
+
+@media(max-width:768px){
+
+    table{
+        font-size:12px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>設備点検表</h1>
+
+<div class="container">
+
+    <h3>点検入力</h3>
+
+    <div class="top-area">
+
+        <div>
+
+            <label>点検日</label><br>
+
+            <input type="date"
+            id="inspectionDate"
+            onchange="loadInspectionData()">
+
+        </div>
+
+        <div>
+
+            <label>設備名称</label><br>
+
+            <input type="text"
+            id="machineName">
+
+        </div>
+
+        <div>
+
+            <label>作業者</label><br>
+
+            <input type="text"
+            id="workerName">
+
+        </div>
+
+        <div>
+
+            <label>区分</label><br>
+
+            <select id="mainCategory"
+            onchange="loadInspectionData()">
+
+                <option value="日常点検">日常点検</option>
+                <option value="週点検">週点検</option>
+                <option value="1ヵ月点検">1ヵ月点検</option>
+                <option value="3ヵ月点検">3ヵ月点検</option>
+                <option value="6ヵ月点検">6ヵ月点検</option>
+                <option value="年点検">年点検</option>
+                <option value="その他">その他</option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+</div>
+
+<h2>点検入力</h2>
+
+<table>
+
+    <thead>
+
+        <tr>
+
+            <th>点検項目</th>
+            <th>点検方法と頻度</th>
+            <th>記録</th>
+            <th>備考</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody id="inspectionBody"></tbody>
+
+</table>
+
+<br>
+
+<button onclick="saveInspection()">
+保存
+</button>
+
+<br>
+
+<button onclick="toggleMonthlyTable()">
+月間一覧　 表示/非表示
+</button>
+
+<div id="monthlyArea">
+
+    <h2 style="margin-top:40px;">
+    月間確認一覧
+    </h2>
+
+    <input type="month"
+    id="monthSelect"
+    onchange="renderMonthlyTable()">
+
+    <table class="month-table">
+
+        <thead id="monthlyHead"></thead>
+
+        <tbody id="monthlyBody"></tbody>
+
+    </table>
+
+</div>
+
+<script>
+
+const inspectionMaster = {
+
+"日常点検":[
+
+    {item:"ワイヤ経路の確認",method:"目視（指差）/ 毎日"},
+    {item:"ワイヤ量(残時間)の確認",method:"目視（指差）/ 毎日"},
+    {item:"加工液量(タンク)の確認",method:"目視（指差）/ 毎日"},
+    {item:"イオン交換樹脂の残時間を確認",method:"目視（指差）/ 毎日"},
+    {item:"上下電極ピンの確認",method:"目視（指差）/ 毎日"},
+    {item:"使用済みワイヤ量の確認",method:"目視（指差）/ 毎日"},
+    {item:"加工液比抵抗の確認",method:"目視（指差）/ 毎日"},
+    {item:"テーブル面と加工槽の確認",method:"目視（指差）/ 毎日"},
+    {item:"フィルタ圧の確認",method:"目視（指差）/ 毎日"},
+    {item:"テーブルのランニング",method:"動作確認 / 毎日"},
+    {item:"異音、振動等の異常の有無",method:"聴音・目視・触手/ 毎日"},
+    {item:"油漏れ、水漏れ等の確認",method:"目視（指差）/ 毎日"},
+    {item:"機械各部の清掃",method:"清掃 / 毎日"}
+
+],
+
+"週点検":[
+
+    {item:"上下ノズルの確認",method:"目視（指差）/ 週1"},
+    {item:"ダイスガイドの確認・清掃",method:"確認・清掃 / 週1"},
+    {item:"下ガイドローラーの確認",method:"目視（指差）/ 週1"},
+    {item:"ワイヤの垂直確認",method:"測定確認 / 週1"},
+    {item:"シール板の清掃",method:"清掃 / 週1"},
+    {item:"ストレーナの清掃",method:"清掃 / 週1"},
+    {item:"比抵抗検出電極の清掃",method:"清掃 / 週1"},
+    {item:"テンションセンサの調節",method:"調節 / 週1"},
+    {item:"昇降ドアシール部の清掃",method:"清掃 / 週1"}
+
+],
+
+"1ヵ月点検":[
+
+    {item:"ブレーキシューの確認",method:"目視（指差）/ 月1"},
+    {item:"フィルタ清掃(制御部ロッカー)",method:"清掃 / 月1"},
+    {item:"フィルタ清掃(クーラー部)",method:"清掃 / 月1"},
+    {item:"AWFチャック部の確認",method:"目視（指差）/ 月1"},
+    {item:"AWF上パイプ部の確認",method:"目視（指差）/ 月1"},
+    {item:"AWFディテクト部の確認",method:"目視（指差）/ 月1"},
+    {item:"フィードドレインホース",method:"確認 / 月1"},
+    {item:"上下ガイド周りの清掃",method:"清掃 / 月1"}
+
+],
+
+"3ヵ月点検":[
+
+    {item:"加工液の交換",method:"交換 / 3ヵ月"},
+    {item:"汚水槽水位検出子の清掃",method:"清掃 / 3ヵ月"},
+    {item:"ガイド部(上下)の平行確認※20㎛以下/20㎜",method:"測定確認 / 3ヵ月"},
+    {item:"ワイヤーの垂直調整",method:"調整 / 3ヵ月"},
+    {item:"フィード部の確認",method:"確認 / 3ヵ月"},
+    {item:"シール板の清掃",method:"清掃 / 3ヵ月"},
+    {item:"プレシールジャバラの清掃",method:"清掃 / 3ヵ月"},
+    {item:"クーラ内部の配管清掃",method:"清掃 / 3ヵ月"}
+
+],
+
+"6ヵ月点検":[
+
+    {item:"グリスアップ（リニアガイド）",method:"給脂 / 6ヵ月"},
+    {item:"グリスアップ（ボールネジ）",method:"給脂 / 6ヵ月"},
+    {item:"グリスアップ（ドレイン軸）",method:"給脂 / 6ヵ月"}
+
+],
+
+"年点検":[
+
+    {item:"フェルトパッドの交換",method:"交換 / 年1"}
+
+],
+
+"その他":[
+
+    {item:"フィルター交換",method:"交換 / 随時"},
+    {item:"ワイヤー交換",method:"交換 / 随時"}
+
+]
+
+};
+
+let inspectionData =
+JSON.parse(
+localStorage.getItem("inspectionData")
+) || [];
+
+function renderInspectionTable(){
+
+    const tbody =
+    document.getElementById("inspectionBody");
+
+    tbody.innerHTML = "";
+
+    const category =
+    document.getElementById("mainCategory").value;
+
+    inspectionMaster[category]
+    .forEach(row=>{
+
+        const tr =
+        document.createElement("tr");
+
+        tr.innerHTML = `
+
+        <td>${row.item}</td>
+
+        <td>${row.method}</td>
+
+        <td>
+
+            <select class="result">
+
+                <option value=""></option>
+                <option value="✓">✓</option>
+                <option value="✕">✕</option>
+
+            </select>
+
+        </td>
+
+        <td>
+
+            <input type="text"
+            class="memo">
+
+        </td>
+
+        `;
+
+        tbody.appendChild(tr);
+
+    });
+
+}
+
+function loadInspectionData(){
+
+    renderInspectionTable();
+
+    const date =
+    document.getElementById("inspectionDate").value;
+
+    const category =
+    document.getElementById("mainCategory").value;
+
+    const saved =
+    inspectionData.find(data=>
+
+        data.date===date &&
+        data.category===category
+
+    );
+
+    if(!saved) return;
+
+    document.getElementById("machineName").value =
+    saved.machine || "";
+
+    document.getElementById("workerName").value =
+    saved.worker || "";
+
+    const rows =
+    document.querySelectorAll(
+    "#inspectionBody tr"
+    );
+
+    rows.forEach((row,index)=>{
+
+        const detail =
+        saved.details[index];
+
+        if(!detail) return;
+
+        row.querySelector(".result").value =
+        detail.result;
+
+        row.querySelector(".memo").value =
+        detail.memo;
+
+    });
+
+}
+
+function saveInspection(){
+
+    const date =
+    document.getElementById("inspectionDate").value;
+
+    const machine =
+    document.getElementById("machineName").value;
+
+    const worker =
+    document.getElementById("workerName").value;
+
+    const category =
+    document.getElementById("mainCategory").value;
+
+    if(!date){
+
+        alert("日付を選択してください");
+
+        return;
+
+    }
+
+    const rows =
+    document.querySelectorAll(
+    "#inspectionBody tr"
+    );
+
+    const details = [];
+
+    rows.forEach(row=>{
+
+        details.push({
+
+            item:
+            row.cells[0].innerText,
+
+            method:
+            row.cells[1].innerText,
+
+            result:
+            row.querySelector(".result").value,
+
+            memo:
+            row.querySelector(".memo").value
+
+        });
+
+    });
+
+    inspectionData =
+    inspectionData.filter(data=>
+
+        !(data.date===date &&
+        data.category===category)
+
+    );
+
+    inspectionData.push({
+
+        date,
+        machine,
+        worker,
+        category,
+        details
+
+    });
+
+    localStorage.setItem(
+
+        "inspectionData",
+
+        JSON.stringify(inspectionData)
+
+    );
+
+    alert("保存しました");
+
+}
+
+function toggleMonthlyTable(){
+
+    const area =
+    document.getElementById("monthlyArea");
+
+    if(area.style.display==="none"){
+
+        area.style.display="block";
+
+        renderMonthlyTable();
+
+    }else{
+
+        area.style.display="none";
+
+    }
+
+}
+
+function renderMonthlyTable(){
+
+    const monthInput =
+    document.getElementById("monthSelect");
+
+    let month =
+    monthInput.value;
+
+    if(!month){
+
+        const now =
+        new Date();
+
+        month =
+        `${now.getFullYear()}-${
+        String(now.getMonth()+1)
+        .padStart(2,"0")}`;
+
+        monthInput.value =
+        month;
+
+    }
+
+    const [year,mon] =
+    month.split("-");
+
+    const days =
+    new Date(year,mon,0).getDate();
+
+    const head =
+    document.getElementById("monthlyHead");
+
+    const body =
+    document.getElementById("monthlyBody");
+
+    head.innerHTML = "";
+    body.innerHTML = "";
+
+    const weekNames =
+    ["日","月","火","水","木","金","土"];
+
+    let headRow =
+    "<tr><th>点検項目</th>";
+
+    for(let d=1; d<=days; d++){
+
+        const week =
+        weekNames[
+        new Date(year,mon-1,d).getDay()
+        ];
+
+        headRow +=
+
+        `<th>
+            ${d}<br>
+            (${week})
+        </th>`;
+
+    }
+
+    headRow += "</tr>";
+
+    head.innerHTML = headRow;
+
+    Object.keys(inspectionMaster)
+    .forEach(category=>{
+
+        const sectionRow =
+        document.createElement("tr");
+
+        sectionRow.innerHTML =
+
+        `<td colspan="${days+1}"
+        class="section">
+
+        【${category}】
+
+        </td>`;
+
+        body.appendChild(sectionRow);
+
+        inspectionMaster[category]
+        .forEach(item=>{
+
+            let row =
+            `<tr>
+
+            <td>${item.item}</td>`;
+
+            for(let d=1; d<=days; d++){
+
+                const dateStr =
+
+                `${year}-${String(mon)
+                .padStart(2,"0")}-${
+                String(d)
+                .padStart(2,"0")}`;
+
+                const found =
+                inspectionData.find(data=>
+
+                    data.date===dateStr &&
+
+                    data.details.some(detail=>
+
+                        detail.item===item.item &&
+                        detail.result==="✓"
+
+                    )
+
+                );
+
+                row += found ?
+                "<td>✓</td>" :
+                "<td></td>";
+
+            }
+
+            row += "</tr>";
+
+            body.innerHTML += row;
+
+        });
+
+    });
+
+    // 備考一覧
+
+    const memoTitle =
+    document.createElement("tr");
+
+    memoTitle.innerHTML =
+
+    `<td colspan="${days+1}"
+    class="section">
+
+    【備考一覧】
+
+    </td>`;
+
+    body.appendChild(memoTitle);
+
+    inspectionData.forEach(data=>{
+
+        if(!data.date.startsWith(month))
+        return;
+
+        const memoList =
+        data.details.filter(detail=>
+
+            detail.memo &&
+            detail.memo.trim() !== ""
+
+        );
+
+        memoList.forEach(detail=>{
+
+            const memoRow =
+            document.createElement("tr");
+
+            memoRow.innerHTML =
+
+            `<td colspan="${days+1}"
+            class="memo-row">
+
+            <b>${data.date}</b>
+
+            ／ 作業者：
+            ${data.worker || "-"}
+
+            ／ 項目：
+            ${detail.item}
+
+            ／ 備考：
+            ${detail.memo}
+
+            </td>`;
+
+            body.appendChild(memoRow);
+
+        });
+
+    });
+
+}
+
+renderInspectionTable();
+
+</script>
+
+</body>
+</html>
