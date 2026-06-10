@@ -1,7 +1,8 @@
 import {
     db,
-    collection,
-    addDoc,
+    doc,
+    setDoc,
+    getDoc,
     serverTimestamp
 }
 from "./firebase.js";
@@ -398,22 +399,28 @@ async function saveInspection(){
 
         });
 
-        await addDoc(
-            collection(db,"inspections"),
-            {
+       const docId =
+    `${machine}_${date}`;
 
-                machine,
-                date,
-                worker,
-                memo,
+await setDoc(
+    doc(
+        db,
+        "inspections",
+        docId
+    ),
+    {
+        machine,
+        date,
+        worker,
+        memo,
 
-                inspections,
+        inspections,
 
-                createdAt:
-                    serverTimestamp()
+        updatedAt:
+            serverTimestamp()
 
-            }
-        );
+    }
+);
 
         alert("保存完了");
 
