@@ -315,7 +315,7 @@ document.getElementById("saveBtn")
 document.getElementById("historyBtn")
 ?.addEventListener("click",()=>{
 
-    alert("履歴画面は次工程");
+   location.href = "logs.html";
 
 });
 
