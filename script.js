@@ -1,3 +1,11 @@
+import {
+    db,
+    collection,
+    addDoc,
+    serverTimestamp
+}
+from "./firebase.js";
+
 const inspectionData = {
 
     dailyList: [
