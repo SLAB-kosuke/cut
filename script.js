@@ -311,7 +311,6 @@ document.addEventListener("input",e=>{
 document.getElementById("saveBtn")
 ?.addEventListener("click", saveInspection);
 
-});
 
 document.getElementById("historyBtn")
 ?.addEventListener("click",()=>{
