@@ -309,9 +309,7 @@ document.addEventListener("input",e=>{
 });
 
 document.getElementById("saveBtn")
-?.addEventListener("click",()=>{
-
-    alert("Firebase保存は次工程");
+?.addEventListener("click", saveInspection);
 
 });
 
@@ -326,5 +324,170 @@ document.getElementById("excelBtn")
 ?.addEventListener("click",()=>{
 
     alert("Excel出力は次工程");
+
+});
+
+async function saveInspection(){
+
+    try{
+
+        const machine =
+            document.getElementById("machine").value;
+
+        const date =
+            document.getElementById("inspectionDate").value;
+
+        const worker =
+            document.getElementById("worker").value;
+
+        const memo =
+            document.getElementById("memo").value;
+
+        if(!worker){
+
+            alert("点検者を入力してください");
+
+            return;
+        }
+
+        const inspections = [];
+
+        document
+        .querySelectorAll(".item-row")
+        .forEach(row=>{
+
+            let result = "";
+
+            if(
+                row.querySelector(".ok-btn")
+                .classList.contains("active")
+            ){
+
+                result = "OK";
+
+            }
+
+            if(
+                row.querySelector(".ng-btn")
+                .classList.contains("active")
+            ){
+
+                result = "NG";
+
+            }
+
+            inspections.push({
+
+                category:
+                    row.closest(".inspection-content")
+                    .previousElementSibling
+                    .textContent
+                    .trim(),
+
+                item:
+                    row.querySelector(".item-name")
+                    .textContent
+                    .trim(),
+
+                result,
+
+                comment:
+                    row.querySelector("textarea")
+                    .value
+
+            });
+
+        });
+
+        await addDoc(
+            collection(db,"inspections"),
+            {
+
+                machine,
+                date,
+                worker,
+                memo,
+
+                inspections,
+
+                createdAt:
+                    serverTimestamp()
+
+            }
+        );
+
+        alert("保存完了");
+
+        clearForm();
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+            "保存エラー\n" +
+            error.message
+        );
+
+    }
+
+}
+function clearForm(){
+
+    document
+    .querySelectorAll(".ok-btn,.ng-btn")
+    .forEach(btn=>{
+
+        btn.classList.remove("active");
+
+    });
+
+    document
+    .querySelectorAll(".ng-comment")
+    .forEach(comment=>{
+
+        comment.style.display="none";
+
+    });
+
+    document
+    .querySelectorAll("textarea")
+    .forEach(text=>{
+
+        text.value="";
+
+    });
+
+    document
+    .getElementById("worker")
+    .value="";
+
+    document
+    .getElementById("memo")
+    .value="";
+
+    localStorage.removeItem(
+        "inspectionDraft"
+    );
+
+}
+document
+.getElementById("inspectionDate")
+?.addEventListener("change",()=>{
+
+    const ok =
+        confirm(
+            "日付変更すると入力内容をクリアします。続行しますか？"
+        );
+
+    if(!ok){
+
+        location.reload();
+
+        return;
+
+    }
+
+    clearForm();
 
 });
