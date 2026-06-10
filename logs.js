@@ -204,3 +204,107 @@ function createDetailHtml(data){
     return html;
 
 }
+
+document
+.getElementById("exportBtn")
+?.addEventListener(
+    "click",
+    exportMonthlyExcel
+);
+async function exportMonthlyExcel(){
+
+    const month =
+        document.getElementById(
+            "exportMonth"
+        ).value;
+
+    if(!month){
+
+        alert("対象年月を選択してください");
+
+        return;
+
+    }
+
+    const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "inspections"
+            )
+        );
+
+    const rows = [];
+
+    snapshot.forEach(doc=>{
+
+        const data =
+            doc.data();
+
+        if(
+            !data.date ||
+            !data.date.startsWith(month)
+        ){
+
+            return;
+
+        }
+
+        data.inspections.forEach(item=>{
+
+            rows.push({
+
+                日付:
+                    data.date,
+
+                設備:
+                    data.machine,
+
+                点検者:
+                    data.worker,
+
+                項目:
+                    item.item,
+
+                判定:
+                    item.result,
+
+                コメント:
+                    item.comment || ""
+
+            });
+
+        });
+
+    });
+
+    if(rows.length===0){
+
+        alert(
+            "対象月のデータがありません"
+        );
+
+        return;
+
+    }
+
+    const ws =
+        XLSX.utils.json_to_sheet(
+            rows
+        );
+
+    const wb =
+        XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(
+        wb,
+        ws,
+        "設備点検一覧"
+    );
+
+    XLSX.writeFile(
+        wb,
+        `設備点検表_${month}.xlsx`
+    );
+
+}
