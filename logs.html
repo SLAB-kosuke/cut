@@ -52,7 +52,25 @@
         </button>
 
     </section>
+<h2>月次Excel出力</h2>
 
+<div class="form-group">
+
+    <label>対象年月</label>
+
+    <input
+        type="month"
+        id="exportMonth">
+
+</div>
+
+<button
+    id="exportBtn"
+    class="excel-btn">
+
+    月次Excel出力
+
+</button>
     <section class="card">
 
         <h2>履歴一覧</h2>
@@ -77,6 +95,7 @@
 
 </div>
 
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 <script type="module" src="logs.js"></script>
 
 </body>
