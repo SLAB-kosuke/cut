@@ -96,6 +96,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     createInspectionItems();
 
+    initializeAccordion();
+
+    loadLocalData();
+
 });
 
 // =========================
@@ -177,18 +181,19 @@ function selectResult(button,result){
 
     button.classList.add("active");
 
-    if(result === "NG"){
+    if(result==="NG"){
 
-        comment.style.display = "block";
+        comment.style.display="block";
 
     }else{
 
-        comment.style.display = "none";
+        comment.style.display="none";
 
     }
 
-}
+    saveLocalData();
 
+}
 // =========================
 // 開閉
 // =========================
@@ -251,5 +256,134 @@ document
 .addEventListener("click", () => {
 
     alert("Excel出力機能は次工程で実装");
+
+});
+
+// =========================
+// アコーディオン
+// =========================
+
+function initializeAccordion(){
+
+    document
+    .querySelectorAll(".inspection-content")
+    .forEach(content=>{
+
+        content.style.display="none";
+
+    });
+
+    document
+    .querySelectorAll(".section-btn")
+    .forEach(btn=>{
+
+        btn.addEventListener("click",()=>{
+
+            const current =
+                btn.nextElementSibling;
+
+            document
+            .querySelectorAll(".inspection-content")
+            .forEach(content=>{
+
+                if(content!==current){
+
+                    content.style.display="none";
+
+                }
+
+            });
+
+            if(current.style.display==="block"){
+
+                current.style.display="none";
+
+            }else{
+
+                current.style.display="block";
+
+            }
+
+        });
+
+    });
+
+}
+
+// =========================
+// LocalStorage保存
+// =========================
+
+function loadLocalData(){
+
+    const saved=
+        localStorage.getItem(
+            "inspectionDraft"
+        );
+
+    if(!saved) return;
+
+    const data=
+        JSON.parse(saved);
+
+    const rows=
+        document.querySelectorAll(
+            ".item-row"
+        );
+
+    data.forEach((item,index)=>{
+
+        if(!rows[index]) return;
+
+        const row=rows[index];
+
+        const okBtn=
+            row.querySelector(".ok-btn");
+
+        const ngBtn=
+            row.querySelector(".ng-btn");
+
+        const textarea=
+            row.querySelector("textarea");
+
+        const comment=
+            row.querySelector(".ng-comment");
+
+        if(item.ok){
+
+            okBtn.classList.add("active");
+
+        }
+
+        if(item.ng){
+
+            ngBtn.classList.add("active");
+
+            comment.style.display="block";
+
+        }
+
+        textarea.value=
+            item.comment || "";
+
+    });
+
+}
+    localStorage.setItem(
+        "inspectionDraft",
+        JSON.stringify(data)
+    );
+
+}
+
+document.addEventListener("input",e=>{
+
+    if(
+        e.target.tagName==="TEXTAREA"
+    ){
+
+        saveLocalData();
+
+    }
 
 });
