@@ -5,8 +5,12 @@ import {
     collection,
     addDoc,
     getDocs,
+    doc,
+    setDoc,
+    getDoc,
     serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyC_qhU_evnhV5JMWQEe-eeNtYW_fmK1ad0",
@@ -26,5 +30,8 @@ export {
     collection,
     addDoc,
     getDocs,
+    doc,
+    setDoc,
+    getDoc,
     serverTimestamp
 };
