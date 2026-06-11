@@ -251,5 +251,86 @@ function saveLocalData() {
 ========================= */
 function generatePrint() {
 
-    window.print();
+    const machine = document.getElementById("machine").value;
+    const date = document.getElementById("inspectionDate").value;
+    const worker = document.getElementById("worker").value;
+    const memo = document.getElementById("memo").value;
+
+    let rowsHtml = "";
+
+    document.querySelectorAll(".item-row").forEach(row => {
+
+        const item = row.querySelector(".item-name").textContent;
+
+        let result = "未";
+
+        if (row.querySelector(".ok-btn").classList.contains("active")) {
+            result = "OK";
+        }
+
+        if (row.querySelector(".ng-btn").classList.contains("active")) {
+            result = "NG";
+        }
+
+        const comment = row.querySelector("textarea").value || "";
+
+        rowsHtml += `
+            <tr>
+                <td>${item}</td>
+                <td>${result}</td>
+                <td>${comment}</td>
+            </tr>
+        `;
+    });
+
+    const html = `
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<style>
+@page { size: A4; margin: 10mm; }
+
+body { font-family: sans-serif; font-size: 12px; }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #000;
+    padding: 6px;
+}
+
+th { background: #eee; }
+</style>
+
+</head>
+<body>
+
+<h2>点検表</h2>
+<p>
+機械：${machine} / 日付：${date} / 作業者：${worker}
+</p>
+
+<table>
+<tr>
+<th>項目</th>
+<th>結果</th>
+<th>コメント</th>
+</tr>
+${rowsHtml}
+</table>
+
+</body>
+</html>
+`;
+
+    const win = window.open("", "_blank");
+    win.document.write(html);
+    win.document.close();
+    win.focus();
+    win.print();
 }
