@@ -623,3 +623,4 @@ async function loadInspectionByDate(){
     }
 
 }
+    });
