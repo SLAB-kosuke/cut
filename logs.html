@@ -1,102 +1,47 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>点検履歴</title>
 
-<title>設備点検履歴</title>
+<style>
+body {
+    font-family: sans-serif;
+    padding: 20px;
+}
 
-<link rel="stylesheet" href="style.css">
+.card {
+    border: 1px solid #333;
+    padding: 10px;
+    margin-bottom: 10px;
+}
 
+.title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+td, th {
+    border: 1px solid #000;
+    padding: 5px;
+    font-size: 12px;
+}
+</style>
 </head>
+
 <body>
 
-<header>
-    <h1>設備点検履歴</h1>
-</header>
+<h2>点検履歴</h2>
 
-<div class="container">
+<div id="logContainer"></div>
 
-    <section class="card">
-
-        <h2>検索</h2>
-
-        <div class="form-group">
-
-            <label>点検日</label>
-
-            <input
-                type="date"
-                id="searchDate">
-
-        </div>
-
-        <div class="form-group">
-
-            <label>点検者</label>
-
-            <input
-                type="text"
-                id="searchWorker"
-                placeholder="点検者名">
-
-        </div>
-
-        <button
-            id="searchBtn"
-            class="section-btn">
-
-            検索
-
-        </button>
-
-    </section>
-<h2>月次Excel出力</h2>
-
-<div class="form-group">
-
-    <label>対象年月</label>
-
-    <input
-        type="month"
-        id="exportMonth">
-
-</div>
-
-<button
-    id="exportBtn"
-    class="excel-btn">
-
-    月次Excel出力
-
-</button>
-    <section class="card">
-
-        <h2>履歴一覧</h2>
-
-        <div id="historyList">
-
-        </div>
-
-    </section>
-
-</div>
-
-<div class="bottom-buttons">
-
-    <button
-        id="backBtn"
-        class="history-btn">
-
-        入力画面へ戻る
-
-    </button>
-
-</div>
-
-<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
-<script type="module" src="logs.js"></script>
+<script type="module" src="./logs.js"></script>
 
 </body>
 </html>
