@@ -83,13 +83,26 @@ const inspectionData = {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const dateInput =
-        document.getElementById("inspectionDate");
+   const dateInput =
+    document.getElementById("inspectionDate");
 
-    if (dateInput) {
-        dateInput.value =
-            new Date().toISOString().split("T")[0];
-    }
+if (dateInput) {
+
+    const today = new Date();
+
+    const yyyy = today.getFullYear();
+
+    const mm = String(
+        today.getMonth() + 1
+    ).padStart(2, "0");
+
+    const dd = String(
+        today.getDate()
+    ).padStart(2, "0");
+
+    dateInput.value =
+        `${yyyy}-${mm}-${dd}`;
+}
 
     createInspectionItems();
 
