@@ -4,11 +4,9 @@ import {
     setDoc,
     getDoc,
     serverTimestamp
-}
-from "./firebase.js";
+} from "./firebase.js";
 
 const inspectionData = {
-
     dailyList: [
         "ワイヤ経路の確認",
         "ワイヤ量(残時間)の確認",
@@ -24,7 +22,6 @@ const inspectionData = {
         "油漏れ、水漏れ等の確認",
         "機械各部の清掃"
     ],
-
     weeklyList: [
         "上下ノズルの確認",
         "ダイスガイドの確認・清掃",
@@ -36,12 +33,10 @@ const inspectionData = {
         "テンションセンサの調節",
         "昇降ドアシール部の清掃"
     ],
-
     otherList: [
         "フィルター交換",
         "ワイヤー交換"
     ],
-
     monthlyList: [
         "ブレーキシューの確認",
         "フィルタ清掃(制御部ロッカー)",
@@ -52,7 +47,6 @@ const inspectionData = {
         "フィードドレインホース",
         "上下ガイド周りの清掃"
     ],
-
     threeMonthList: [
         "加工液の交換",
         "汚水槽水位検出子の清掃",
@@ -63,13 +57,11 @@ const inspectionData = {
         "プレシールジャバラの清掃",
         "クーラ内部の配管清掃"
     ],
-
     sixMonthList: [
         "グリスアップ（リニアガイド）",
         "グリスアップ（ボールネジ）",
         "グリスアップ（ドレイン軸）"
     ],
-
     yearlyList: [
         "フェルトパッドの交換"
     ]
@@ -77,550 +69,242 @@ const inspectionData = {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const dateInput =
-        document.getElementById("inspectionDate");
+    const dateInput = document.getElementById("inspectionDate");
 
-    if(dateInput){
-
-        dateInput.value =
-            new Date().toISOString().split("T")[0];
-
+    if (dateInput) {
+        dateInput.value = new Date().toISOString().split("T")[0];
     }
-loadInspectionByDate();
+
     createInspectionItems();
     initializeAccordion();
-    loadLocalData();
-document
-.getElementById("inspectionDate")
-?.addEventListener(
-    "change",
-    loadInspectionByDate
-);
 
-function createInspectionItems(){
+    loadInspectionByDate();
 
-    Object.keys(inspectionData).forEach(listId=>{
+    dateInput?.addEventListener("change", loadInspectionByDate);
 
-        const container =
-            document.getElementById(listId);
+    document.getElementById("saveBtn")
+        ?.addEventListener("click", saveInspection);
+});
 
-        if(!container) return;
+/* =========================
+   生成
+========================= */
+function createInspectionItems() {
 
-        inspectionData[listId].forEach(item=>{
+    Object.keys(inspectionData).forEach(listId => {
 
-            const row =
-                document.createElement("div");
+        const container = document.getElementById(listId);
+        if (!container) return;
 
+        inspectionData[listId].forEach(item => {
+
+            const row = document.createElement("div");
             row.className = "item-row";
 
             row.innerHTML = `
-                <div class="item-name">
-                    ${item}
-                </div>
-
+                <div class="item-name">${item}</div>
                 <div class="result-buttons">
-
-                    <button type="button" class="ok-btn">
-                        ✓ 正常
-                    </button>
-
-                    <button type="button" class="ng-btn">
-                        ✕ 異常
-                    </button>
-
+                    <button type="button" class="ok-btn">✓ 正常</button>
+                    <button type="button" class="ng-btn">✕ 異常</button>
                 </div>
-
                 <div class="ng-comment" style="display:none;">
-
-                    <textarea
-                    placeholder="異常内容を入力"></textarea>
-
+                    <textarea placeholder="異常内容を入力"></textarea>
                 </div>
             `;
 
-            const okBtn =
-                row.querySelector(".ok-btn");
+            const okBtn = row.querySelector(".ok-btn");
+            const ngBtn = row.querySelector(".ng-btn");
+            const comment = row.querySelector(".ng-comment");
 
-            const ngBtn =
-                row.querySelector(".ng-btn");
-
-            const comment =
-                row.querySelector(".ng-comment");
-
-            okBtn.addEventListener("click",()=>{
-
+            okBtn.addEventListener("click", () => {
                 okBtn.classList.add("active");
                 ngBtn.classList.remove("active");
-
-                comment.style.display="none";
-
+                comment.style.display = "none";
                 saveLocalData();
-
             });
 
-            ngBtn.addEventListener("click",()=>{
-
+            ngBtn.addEventListener("click", () => {
                 ngBtn.classList.add("active");
                 okBtn.classList.remove("active");
-
-                comment.style.display="block";
-
+                comment.style.display = "block";
                 saveLocalData();
-
             });
 
             container.appendChild(row);
-
         });
-
     });
-
 }
 
-function initializeAccordion(){
-
-    document
-    .querySelectorAll(".inspection-content")
-    .forEach(content=>{
-
-        content.style.display="none";
-
-    });
-
-    document
-    .querySelectorAll(".section-btn")
-    .forEach(btn=>{
-
-        btn.addEventListener("click",()=>{
-
-            const current =
-                btn.nextElementSibling;
-
-            document
-            .querySelectorAll(".inspection-content")
-            .forEach(content=>{
-
-                if(content!==current){
-
-                    content.style.display="none";
-
-                }
-
-            });
-
-            current.style.display =
-                current.style.display==="block"
-                ? "none"
-                : "block";
-
-        });
-
-    });
-
-}
-
-function saveLocalData(){
-
-    const data=[];
-
-    document
-    .querySelectorAll(".item-row")
-    .forEach(row=>{
-
-        data.push({
-
-            ok:
-            row.querySelector(".ok-btn")
-            .classList.contains("active"),
-
-            ng:
-            row.querySelector(".ng-btn")
-            .classList.contains("active"),
-
-            comment:
-            row.querySelector("textarea").value
-
-        });
-
-    });
-
-    localStorage.setItem(
-        "inspectionDraft",
-        JSON.stringify(data)
-    );
-
-}
-
-function loadLocalData(){
-
-    const saved =
-        localStorage.getItem("inspectionDraft");
-
-    if(!saved) return;
-
-    const data =
-        JSON.parse(saved);
-
-    const rows =
-        document.querySelectorAll(".item-row");
-
-    data.forEach((item,index)=>{
-
-        const row = rows[index];
-
-        if(!row) return;
-
-        const okBtn =
-            row.querySelector(".ok-btn");
-
-        const ngBtn =
-            row.querySelector(".ng-btn");
-
-        const comment =
-            row.querySelector(".ng-comment");
-
-        const textarea =
-            row.querySelector("textarea");
-
-        if(item.ok){
-
-            okBtn.classList.add("active");
-
-        }
-
-        if(item.ng){
-
-            ngBtn.classList.add("active");
-
-            comment.style.display="block";
-
-        }
-
-        textarea.value =
-            item.comment || "";
-
-    });
-
-}
-
-document.addEventListener("input",e=>{
-
-    if(e.target.tagName==="TEXTAREA"){
-
-        saveLocalData();
-
-    }
-
-});
-
-document.getElementById("saveBtn")
-?.addEventListener("click", saveInspection);
-
-
-document.getElementById("historyBtn")
-?.addEventListener("click",()=>{
-
-   location.href = "logs.html";
-
-});
-
-document.getElementById("excelBtn")
-?.addEventListener("click",()=>{
-
-    alert("Excel出力は次工程");
-
-});
-
-async function saveInspection(){
-
-    try{
-
-        const machine =
-            document.getElementById("machine").value;
-
-        const date =
-            document.getElementById("inspectionDate").value;
-
-        const worker =
-            document.getElementById("worker").value;
-
-        const memo =
-            document.getElementById("memo").value;
-
-        if(!worker){
-
+/* =========================
+   Firebase保存
+========================= */
+async function saveInspection() {
+
+    try {
+
+        const machine = document.getElementById("machine").value;
+        const date = document.getElementById("inspectionDate").value;
+        const worker = document.getElementById("worker").value;
+        const memo = document.getElementById("memo").value;
+
+        if (!worker) {
             alert("点検者を入力してください");
-
             return;
         }
 
         const inspections = [];
 
-        document
-        .querySelectorAll(".item-row")
-        .forEach(row=>{
+        document.querySelectorAll(".item-row").forEach(row => {
 
             let result = "";
 
-            if(
-                row.querySelector(".ok-btn")
-                .classList.contains("active")
-            ){
-
+            if (row.querySelector(".ok-btn").classList.contains("active")) {
                 result = "OK";
-
             }
 
-            if(
-                row.querySelector(".ng-btn")
-                .classList.contains("active")
-            ){
-
+            if (row.querySelector(".ng-btn").classList.contains("active")) {
                 result = "NG";
-
             }
 
             inspections.push({
-
-                category:
-                    row.closest(".inspection-content")
-                    .previousElementSibling
-                    .textContent
-                    .trim(),
-
-                item:
-                    row.querySelector(".item-name")
-                    .textContent
-                    .trim(),
-
+                item: row.querySelector(".item-name").textContent.trim(),
                 result,
-
-                comment:
-                    row.querySelector("textarea")
-                    .value
-
+                comment: row.querySelector("textarea").value
             });
-
         });
 
-       const docId =
-    `${machine}_${date}`;
+        const docId = `${machine}_${date}`;
 
-await setDoc(
-    doc(
-        db,
-        "inspections",
-        docId
-    ),
-    {
-        machine,
-        date,
-        worker,
-        memo,
-
-        inspections,
-
-        updatedAt:
-            serverTimestamp()
-
-    }
-);
+        await setDoc(doc(db, "inspections", docId), {
+            machine,
+            date,
+            worker,
+            memo,
+            inspections,
+            updatedAt: serverTimestamp()
+        }, { merge: true });
 
         alert("保存完了");
 
-        clearForm();
-
-    }catch(error){
-
-        console.error(error);
-
-        alert(
-            "保存エラー\n" +
-            error.message
-        );
-
+    } catch (e) {
+        console.error(e);
+        alert("保存エラー\n" + e.message);
     }
-
 }
-function clearForm(){
 
-    document
-    .querySelectorAll(".ok-btn,.ng-btn")
-    .forEach(btn=>{
+/* =========================
+   読み込み（復元）
+========================= */
+async function loadInspectionByDate() {
 
-        btn.classList.remove("active");
+    try {
 
-    });
+        const machine = document.getElementById("machine").value;
+        const date = document.getElementById("inspectionDate").value;
 
-    document
-    .querySelectorAll(".ng-comment")
-    .forEach(comment=>{
+        if (!machine || !date) return;
 
-        comment.style.display="none";
+        const docId = `${machine}_${date}`;
 
-    });
+        const snapshot = await getDoc(doc(db, "inspections", docId));
 
-    document
-    .querySelectorAll("textarea")
-    .forEach(text=>{
+        clearInspectionUI();
 
-        text.value="";
+        if (!snapshot.exists()) return;
 
-    });
+        const data = snapshot.data();
 
-    document
-    .getElementById("worker")
-    .value="";
+        document.getElementById("worker").value = data.worker || "";
+        document.getElementById("memo").value = data.memo || "";
 
-    document
-    .getElementById("memo")
-    .value="";
+        const rows = document.querySelectorAll(".item-row");
 
-    localStorage.removeItem(
-        "inspectionDraft"
-    );
+        (data.inspections || []).forEach((saved, index) => {
 
-}
-document
-.getElementById("inspectionDate")
-?.addEventListener("change",()=>{
+            const row = rows[index];
+            if (!row) return;
 
-    const ok =
-        confirm(
-            "日付変更すると入力内容をクリアします。続行しますか？"
-        );
+            const okBtn = row.querySelector(".ok-btn");
+            const ngBtn = row.querySelector(".ng-btn");
+            const textarea = row.querySelector("textarea");
+            const comment = row.querySelector(".ng-comment");
 
-    if(!ok){
+            if (saved.result === "OK") okBtn.classList.add("active");
+            if (saved.result === "NG") {
+                ngBtn.classList.add("active");
+                comment.style.display = "block";
+            }
 
-        location.reload();
+            textarea.value = saved.comment || "";
+        });
 
-        return;
-
+    } catch (e) {
+        console.error(e);
     }
+}
 
-    clearForm();
+/* =========================
+   クリア
+========================= */
+function clearInspectionUI() {
 
-});
-async function loadInspectionByDate(){
+    document.querySelectorAll(".ok-btn,.ng-btn")
+        .forEach(btn => btn.classList.remove("active"));
 
-    try{
+    document.querySelectorAll(".ng-comment")
+        .forEach(c => c.style.display = "none");
 
-        const machine =
-            document.getElementById("machine").value;
-
-        const date =
-            document.getElementById("inspectionDate").value;
-
-        if(!machine || !date) return;
-
-        const docId =
-            `${machine}_${date}`;
-
-        const snapshot =
-            await getDoc(
-                doc(
-                    db,
-                    "inspections",
-                    docId
-                )
-            );
-
-        if(!snapshot.exists()){
-
-           function clearInspectionData(){
+    document.querySelectorAll("textarea")
+        .forEach(t => t.value = "");
 
     document.getElementById("worker").value = "";
-
     document.getElementById("memo").value = "";
 
-    document
-    .querySelectorAll(".item-row")
-    .forEach(row=>{
+    localStorage.removeItem("inspectionDraft");
+}
 
-        row
-        .querySelector(".ok-btn")
-        .classList.remove("active");
+/* =========================
+   UI
+========================= */
+function initializeAccordion() {
 
-        row
-        .querySelector(".ng-btn")
-        .classList.remove("active");
+    document.querySelectorAll(".inspection-content")
+        .forEach(c => c.style.display = "none");
 
-        row
-        .querySelector("textarea")
-        .value = "";
+    document.querySelectorAll(".section-btn")
+        .forEach(btn => {
 
-        row
-        .querySelector(".ng-comment")
-        .style.display = "none";
+            btn.addEventListener("click", () => {
+
+                const target = btn.nextElementSibling;
+
+                document.querySelectorAll(".inspection-content")
+                    .forEach(c => {
+                        if (c !== target) c.style.display = "none";
+                    });
+
+                target.style.display =
+                    target.style.display === "block" ? "none" : "block";
+            });
+        });
+}
+
+/* =========================
+   ローカル保存（補助）
+========================= */
+function saveLocalData() {
+
+    const data = [];
+
+    document.querySelectorAll(".item-row").forEach(row => {
+
+        data.push({
+            ok: row.querySelector(".ok-btn").classList.contains("active"),
+            ng: row.querySelector(".ng-btn").classList.contains("active"),
+            comment: row.querySelector("textarea").value
+        });
 
     });
 
+    localStorage.setItem("inspectionDraft", JSON.stringify(data));
 }
-
-            return;
-        }
-
-        const data =
-            snapshot.data();
-
-       function restoreInspectionData(data){
-
-    clearInspectionData();
-
-    document.getElementById("worker").value =
-        data.worker || "";
-
-    document.getElementById("memo").value =
-        data.memo || "";
-
-    const rows =
-        document.querySelectorAll(".item-row");
-
-    data.inspections.forEach((saved,index)=>{
-
-        const row = rows[index];
-
-        if(!row) return;
-
-        const okBtn =
-            row.querySelector(".ok-btn");
-
-        const ngBtn =
-            row.querySelector(".ng-btn");
-
-        const textarea =
-            row.querySelector("textarea");
-
-        const comment =
-            row.querySelector(".ng-comment");
-
-        if(saved.result==="OK"){
-
-            okBtn.classList.add("active");
-
-        }
-
-        if(saved.result==="NG"){
-
-            ngBtn.classList.add("active");
-
-            comment.style.display =
-                "block";
-
-        }
-
-        textarea.value =
-            saved.comment || "";
-
-    });
-
-}
-
-    }catch(error){
-
-        console.error(error);
-
-    }
-
-}
-    });
