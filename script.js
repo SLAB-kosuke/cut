@@ -334,3 +334,44 @@ ${rowsHtml}
     win.focus();
     win.print();
 }
+function initializeAccordion() {
+
+    document
+    .querySelectorAll(".inspection-content")
+    .forEach(content => {
+
+        content.style.display = "none";
+
+    });
+
+    document
+    .querySelectorAll(".section-btn")
+    .forEach(btn => {
+
+        btn.addEventListener("click", () => {
+
+            const current =
+                btn.nextElementSibling;
+
+            document
+            .querySelectorAll(".inspection-content")
+            .forEach(content => {
+
+                if (content !== current) {
+
+                    content.style.display = "none";
+
+                }
+
+            });
+
+            current.style.display =
+                current.style.display === "block"
+                ? "none"
+                : "block";
+
+        });
+
+    });
+
+}
