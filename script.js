@@ -86,12 +86,16 @@ document.addEventListener("DOMContentLoaded", () => {
             new Date().toISOString().split("T")[0];
 
     }
-
+loadInspectionByDate();
     createInspectionItems();
     initializeAccordion();
     loadLocalData();
-
-});
+document
+.getElementById("inspectionDate")
+?.addEventListener(
+    "change",
+    loadInspectionByDate
+);
 
 function createInspectionItems(){
 
@@ -497,3 +501,125 @@ document
     clearForm();
 
 });
+async function loadInspectionByDate(){
+
+    try{
+
+        const machine =
+            document.getElementById("machine").value;
+
+        const date =
+            document.getElementById("inspectionDate").value;
+
+        if(!machine || !date) return;
+
+        const docId =
+            `${machine}_${date}`;
+
+        const snapshot =
+            await getDoc(
+                doc(
+                    db,
+                    "inspections",
+                    docId
+                )
+            );
+
+        if(!snapshot.exists()){
+
+           function clearInspectionData(){
+
+    document.getElementById("worker").value = "";
+
+    document.getElementById("memo").value = "";
+
+    document
+    .querySelectorAll(".item-row")
+    .forEach(row=>{
+
+        row
+        .querySelector(".ok-btn")
+        .classList.remove("active");
+
+        row
+        .querySelector(".ng-btn")
+        .classList.remove("active");
+
+        row
+        .querySelector("textarea")
+        .value = "";
+
+        row
+        .querySelector(".ng-comment")
+        .style.display = "none";
+
+    });
+
+}
+
+            return;
+        }
+
+        const data =
+            snapshot.data();
+
+       function restoreInspectionData(data){
+
+    clearInspectionData();
+
+    document.getElementById("worker").value =
+        data.worker || "";
+
+    document.getElementById("memo").value =
+        data.memo || "";
+
+    const rows =
+        document.querySelectorAll(".item-row");
+
+    data.inspections.forEach((saved,index)=>{
+
+        const row = rows[index];
+
+        if(!row) return;
+
+        const okBtn =
+            row.querySelector(".ok-btn");
+
+        const ngBtn =
+            row.querySelector(".ng-btn");
+
+        const textarea =
+            row.querySelector("textarea");
+
+        const comment =
+            row.querySelector(".ng-comment");
+
+        if(saved.result==="OK"){
+
+            okBtn.classList.add("active");
+
+        }
+
+        if(saved.result==="NG"){
+
+            ngBtn.classList.add("active");
+
+            comment.style.display =
+                "block";
+
+        }
+
+        textarea.value =
+            saved.comment || "";
+
+    });
+
+}
+
+    }catch(error){
+
+        console.error(error);
+
+    }
+
+}
