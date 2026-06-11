@@ -308,3 +308,12 @@ function saveLocalData() {
 
     localStorage.setItem("inspectionDraft", JSON.stringify(data));
 }
+document.getElementById("historyBtn")
+?.addEventListener("click", () => {
+    location.href = "logs.html";
+});
+
+document.getElementById("excelBtn")
+?.addEventListener("click", () => {
+    alert("Excel出力は次工程");
+});
