@@ -233,28 +233,37 @@ function createInspectionItems() {
     }
 );
 
-                    ngBtn.addEventListener(
-                        "click",
-                        () => {
+                   ngBtn.addEventListener(
+    "click",
+    () => {
 
-                            ngBtn.classList.add("active");
+        if (
+            ngBtn.classList.contains("active")
+        ) {
 
-                            okBtn.classList.remove("active");
+            ngBtn.classList.remove("active");
 
-                            comment.style.display =
-                                "block";
+            comment.style.display =
+                "none";
 
-                            saveLocalData();
+        } else {
 
-                        }
-                    );
+            ngBtn.classList.add("active");
 
+            okBtn.classList.remove("active");
+
+            comment.style.display =
+                "block";
+
+        }
+
+        saveLocalData();
+
+    }
+);
                     container.appendChild(row);
-
                 });
-
         });
-
 }
 /* =========================
    アコーディオン
