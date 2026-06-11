@@ -208,21 +208,30 @@ function createInspectionItems() {
                     const comment =
                         row.querySelector(".ng-comment");
 
-                    okBtn.addEventListener(
-                        "click",
-                        () => {
+                   okBtn.addEventListener(
+    "click",
+    () => {
 
-                            okBtn.classList.add("active");
+        if (
+            okBtn.classList.contains("active")
+        ) {
 
-                            ngBtn.classList.remove("active");
+            okBtn.classList.remove("active");
 
-                            comment.style.display =
-                                "none";
+        } else {
 
-                            saveLocalData();
+            okBtn.classList.add("active");
 
-                        }
-                    );
+            ngBtn.classList.remove("active");
+
+        }
+
+        comment.style.display = "none";
+
+        saveLocalData();
+
+    }
+);
 
                     ngBtn.addEventListener(
                         "click",
