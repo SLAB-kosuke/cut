@@ -2,36 +2,56 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>点検履歴</title>
 
+<link rel="stylesheet" href="style.css">
+
 <style>
-body {
-    font-family: sans-serif;
-    padding: 20px;
+
+body{
+    padding:15px;
 }
 
-.card {
-    border: 1px solid #333;
-    padding: 10px;
-    margin-bottom: 10px;
+.search-area{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:15px;
 }
 
-.title {
-    font-weight: bold;
-    margin-bottom: 5px;
+.search-area input,
+.search-area select{
+    padding:8px;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
+.history-table{
+    width:100%;
+    border-collapse:collapse;
 }
 
-td, th {
-    border: 1px solid #000;
-    padding: 5px;
-    font-size: 12px;
+.history-table th,
+.history-table td{
+    border:1px solid #ccc;
+    padding:8px;
+    text-align:center;
 }
+
+.detail-row{
+    display:none;
+}
+
+.detail-box{
+    background:#f5f5f5;
+    padding:10px;
+}
+
+.detail-btn{
+    padding:5px 10px;
+    cursor:pointer;
+}
+
 </style>
 </head>
 
@@ -39,7 +59,48 @@ td, th {
 
 <h2>点検履歴</h2>
 
-<div id="logContainer"></div>
+<div class="search-area">
+
+<input
+    type="date"
+    id="dateSearch">
+
+<select id="machineSearch">
+
+    <option value="">
+        全設備
+    </option>
+
+</select>
+
+<button id="searchBtn">
+検索
+</button>
+
+<button id="clearBtn">
+クリア
+</button>
+
+</div>
+
+<table class="history-table">
+
+<thead>
+
+<tr>
+<th>日付</th>
+<th>設備</th>
+<th>点検者</th>
+<th>詳細</th>
+</tr>
+
+</thead>
+
+<tbody id="logContainer">
+
+</tbody>
+
+</table>
 
 <script type="module" src="./logs.js"></script>
 
