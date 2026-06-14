@@ -53,8 +53,7 @@ async function loadLogs() {
 
     allLogs = [];
 
-    const machines =
-        new Set();
+    const machines = new Set();
 
     snap.forEach(docSnap => {
 
@@ -63,7 +62,7 @@ async function loadLogs() {
 
         allLogs.push(data);
 
-        if (data.machine) {
+        if(data.machine){
 
             machines.add(
                 data.machine
@@ -74,21 +73,21 @@ async function loadLogs() {
     });
 
     allLogs.sort(
-        (a, b) =>
+        (a,b)=>
             (b.date || "")
-                .localeCompare(
-                    a.date || ""
-                )
+            .localeCompare(
+                a.date || ""
+            )
     );
 
-    const machineSelect =
+    const select =
         document.getElementById(
             "machineSearch"
         );
 
-    if (machineSelect) {
+    if(select){
 
-        machines.forEach(machine => {
+        machines.forEach(machine=>{
 
             const option =
                 document.createElement(
@@ -101,7 +100,7 @@ async function loadLogs() {
             option.textContent =
                 machine;
 
-            machineSelect.appendChild(
+            select.appendChild(
                 option
             );
 
@@ -113,7 +112,7 @@ async function loadLogs() {
 
 }
 
-function renderLogs() {
+function renderLogs(){
 
     const container =
         document.getElementById(
@@ -133,17 +132,15 @@ function renderLogs() {
         )?.value || "";
 
     const filtered =
-        allLogs.filter(log => {
+        allLogs.filter(log=>{
 
             const dateMatch =
                 !dateSearch ||
-                log.date ===
-                dateSearch;
+                log.date === dateSearch;
 
             const machineMatch =
                 !machineSearch ||
-                log.machine ===
-                machineSearch;
+                log.machine === machineSearch;
 
             return (
                 dateMatch &&
@@ -152,109 +149,166 @@ function renderLogs() {
 
         });
 
-    filtered.forEach(
-        (data, index) => {
+    filtered.forEach(data=>{
 
-            const row =
-                document.createElement(
-                    "tr"
-                );
-
-            row.innerHTML = `
-<td>${data.date || ""}</td>
-<td>${data.machine || ""}</td>
-<td>${data.worker || ""}</td>
-<td>
-<button
-class="detail-btn"
-data-index="${index}">
-詳細
-</button>
-</td>
-`;
-
-            container.appendChild(
-                row
+        const card =
+            document.createElement(
+                "div"
             );
 
-            let detailHtml = `
-<div class="detail-box">
+        card.className =
+            "log-card";
 
-<table style="width:100%;border-collapse:collapse;">
+        const grouped = {};
 
-<tr>
-<th>項目</th>
-<th>結果</th>
-<th>コメント</th>
-</tr>
-`;
+        (data.inspections || [])
+        .forEach(item=>{
 
-            (
-                data.inspections || []
-            ).forEach(item => {
+            const category =
+                item.category ||
+                "その他";
 
-                detailHtml += `
-<tr>
-<td>${item.item}</td>
-<td>${item.result}</td>
-<td>${item.comment || ""}</td>
-</tr>
+            if(
+                !grouped[category]
+            ){
+
+                grouped[category] = [];
+
+            }
+
+            grouped[category]
+                .push(item);
+
+        });
+
+        let detailHtml = "";
+
+        Object.keys(grouped)
+        .forEach(category=>{
+
+            let rows = "";
+
+            grouped[category]
+            .forEach(item=>{
+
+                rows += `
+<div class="item-line">
+
+${item.item}
+
+【${item.result || "-"}】
+
+${item.comment || ""}
+
+</div>
 `;
 
             });
 
             detailHtml += `
-</table>
+<div class="category">
 
-<div style="margin-top:10px;">
+<div class="category-title">
+${category}
+</div>
+
+<div class="category-content">
+${rows}
+</div>
+
+</div>
+`;
+
+        });
+
+        card.innerHTML = `
+
+<div class="log-date">
+${data.date}
+</div>
+
+<div class="log-info">
+設備：${data.machine}
+</div>
+
+<div class="log-info">
+作業者：${data.worker}
+</div>
+
+<button
+class="detail-btn">
+
+詳細
+
+</button>
+
+<div class="detail-area">
+
+${detailHtml}
+
+<div class="memo-box">
 
 <b>備考</b><br>
+
 ${data.memo || ""}
 
 </div>
 
 </div>
+
 `;
 
-            const detailRow =
-                document.createElement(
-                    "tr"
-                );
+        container.appendChild(
+            card
+        );
 
-            detailRow.className =
-                "detail-row";
-
-            detailRow.style.display =
-                "none";
-
-            detailRow.innerHTML = `
-<td colspan="4">
-${detailHtml}
-</td>
-`;
-
-            container.appendChild(
-                detailRow
+        const detailBtn =
+            card.querySelector(
+                ".detail-btn"
             );
 
-            row
-                .querySelector(
-                    ".detail-btn"
-                )
-                .addEventListener(
-                    "click",
-                    () => {
+        const detailArea =
+            card.querySelector(
+                ".detail-area"
+            );
 
-                        detailRow.style.display =
-                            detailRow.style.display ===
-                            "none"
-                            ? "table-row"
-                            : "none";
+        detailBtn.addEventListener(
+            "click",
+            ()=>{
+
+                detailArea.style.display =
+                    detailArea.style.display ===
+                    "block"
+                    ? "none"
+                    : "block";
+
+            }
+        );
+
+        card
+            .querySelectorAll(
+                ".category-title"
+            )
+            .forEach(title=>{
+
+                title.addEventListener(
+                    "click",
+                    ()=>{
+
+                        const content =
+                            title.nextElementSibling;
+
+                        content.style.display =
+                            content.style.display ===
+                            "block"
+                            ? "none"
+                            : "block";
 
                     }
                 );
 
-        }
-    );
+            });
+
+    });
 
 }
