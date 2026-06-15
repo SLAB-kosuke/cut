@@ -11,7 +11,7 @@ document.addEventListener(
     async () => {
 
         await loadLogs();
-initializeExportControls();
+
         document
             .getElementById("searchBtn")
             ?.addEventListener(
@@ -24,14 +24,7 @@ initializeExportControls();
             ?.addEventListener(
                 "click",
                 () => {
-document
-    .getElementById(
-        "excelExportBtn"
-    )
-    ?.addEventListener(
-        "click",
-        openExcelExportDialog
-    );
+
                     document.getElementById(
                         "dateSearch"
                     ).value = "";
@@ -44,7 +37,14 @@ document
 
                 }
             );
-
+   document
+            .getElementById(
+                "excelExportBtn"
+            )
+            ?.addEventListener(
+                "click",
+                openExcelExportDialog
+                  );
     }
 );
 
