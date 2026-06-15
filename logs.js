@@ -319,102 +319,46 @@ ${data.memo || ""}
     });
 
 }
-function initializeExportControls() {
 
-    const yearSelect =
-        document.getElementById(
-            "yearSelect"
-        );
-
-    const monthSelect =
-        document.getElementById(
-            "monthSelect"
-        );
-
-    const exportMachine =
-        document.getElementById(
-            "exportMachine"
-        );
-
-    const year =
-        new Date().getFullYear();
-
-    for(let y = year - 2; y <= year + 1; y++){
-
-        const option =
-            document.createElement(
-                "option"
-            );
-
-        option.value = y;
-        option.textContent = y;
-
-        yearSelect.appendChild(
-            option
-        );
-
-    }
-
-    yearSelect.value = year;
-
-    for(let m = 1; m <= 12; m++){
-
-        const option =
-            document.createElement(
-                "option"
-            );
-
-        option.value = m;
-        option.textContent = m;
-
-        monthSelect.appendChild(
-            option
-        );
-
-    }
-
-    monthSelect.value =
-        new Date().getMonth() + 1;
+function openExcelExportDialog() {
 
     const machines =
         [...new Set(
             allLogs.map(
                 x => x.machine
             )
-        )];
+        )]
+        .filter(Boolean);
 
-    machines.forEach(machine => {
-
-        const option =
-            document.createElement(
-                "option"
-            );
-
-        option.value =
-            machine;
-
-        option.textContent =
-            machine;
-
-        exportMachine.appendChild(
-            option
+    const machine =
+        prompt(
+            "設備名を入力してください\n\n" +
+            machines.join("\n")
         );
 
-    });
+    if (!machine) return;
 
-}
-function openExcelExportDialog() {
+    const year =
+        prompt(
+            "対象年を入力してください",
+            new Date().getFullYear()
+        );
+
+    if (!year) return;
+
+    const month =
+        prompt(
+            "対象月を入力してください",
+            new Date().getMonth() + 1
+        );
+
+    if (!month) return;
 
     alert(
-`月次Excel出力
-
-次のステップで
-
-・設備選択
-・年選択
-・月選択
-
-を追加します`
+        `出力開始\n\n` +
+        `設備：${machine}\n` +
+        `年：${year}\n` +
+        `月：${month}`
     );
 
 }
