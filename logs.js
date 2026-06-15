@@ -11,7 +11,7 @@ document.addEventListener(
     async () => {
 
         await loadLogs();
-
+initializeExportControls();
         document
             .getElementById("searchBtn")
             ?.addEventListener(
