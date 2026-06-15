@@ -320,65 +320,80 @@ ${data.memo || ""}
 
 }
 
-function openExcelExportDialog() {
+async function openExcelExportDialog() {
 
-const machine =
-    document.getElementById(
-        "machineSearch"
-    )?.value;
+    const machine =
+        document.getElementById("machineSearch")?.value;
 
-if (!machine) {
-
-    alert(
-        "設備を選択"
-    );
-
-    return;
-
-}
+    if (!machine) {
+        alert("設備を選択");
+        return;
+    }
 
     const year =
-        prompt(
-            "対象年を入力",
-            new Date().getFullYear()
-        );
+        prompt("対象年を入力", new Date().getFullYear());
 
     if (!year) return;
 
     const month =
-        prompt(
-            "対象月を入力",
-            new Date().getMonth() + 1
-        );
+        prompt("対象月を入力", new Date().getMonth() + 1);
 
     if (!month) return;
 
-   const targetLogs =
-    allLogs.filter(log => {
+    const targetLogs =
+        allLogs.filter(log => {
 
-        if (
-            log.machine !== machine
-        ) return false;
+            if (log.machine !== machine) return false;
 
-        const logDate =
-            new Date(log.date);
+            const logDate = new Date(log.date);
 
-        return (
-            logDate.getFullYear()
-                === Number(year)
-            &&
-            logDate.getMonth() + 1
-                === Number(month)
-        );
+            return (
+                logDate.getFullYear() === Number(year) &&
+                logDate.getMonth() + 1 === Number(month)
+            );
 
+        });
+
+    console.log("対象件数", targetLogs.length);
+
+    alert(`${targetLogs.length}件のデータが見つかりました`);
+
+    // =========================
+    // Excel出力処理
+    // =========================
+
+    const workbook = new ExcelJS.Workbook();
+
+    const response = await fetch("設備点検表.xlsx");
+
+    const arrayBuffer = await response.arrayBuffer();
+
+    await workbook.xlsx.load(arrayBuffer);
+
+    const sheet = workbook.getWorksheet("月1～年1");
+
+    if (!sheet) {
+        alert("シート『月1～年1』が見つかりません");
+        return;
+    }
+
+    // ★ここはまだ転記しない（次ステップ）
+
+    const buffer = await workbook.xlsx.writeBuffer();
+
+    const blob = new Blob([buffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     });
 
-console.log(
-    "対象件数",
-    targetLogs.length
-);
+    const url = URL.createObjectURL(blob);
 
-alert(
-    `${targetLogs.length}件のデータが見つかりました`
-);
+    const a = document.createElement("a");
+
+    a.href = url;
+
+    a.download = `${machine}_${year}年${month}月.xlsx`;
+
+    a.click();
+
+    URL.revokeObjectURL(url);
 }
