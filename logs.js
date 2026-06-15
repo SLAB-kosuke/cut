@@ -24,7 +24,14 @@ initializeExportControls();
             ?.addEventListener(
                 "click",
                 () => {
-
+document
+    .getElementById(
+        "excelExportBtn"
+    )
+    ?.addEventListener(
+        "click",
+        openExcelExportDialog
+    );
                     document.getElementById(
                         "dateSearch"
                     ).value = "";
@@ -394,5 +401,20 @@ function initializeExportControls() {
         );
 
     });
+
+}
+function openExcelExportDialog() {
+
+    alert(
+`月次Excel出力
+
+次のステップで
+
+・設備選択
+・年選択
+・月選択
+
+を追加します`
+    );
 
 }
