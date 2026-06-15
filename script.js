@@ -483,8 +483,6 @@ async function loadInspectionByDate() {
 
         if (!snapshot.exists()) {
 
-            loadLocalData();
-
             return;
 
         }
