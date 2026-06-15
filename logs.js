@@ -312,3 +312,87 @@ ${data.memo || ""}
     });
 
 }
+function initializeExportControls() {
+
+    const yearSelect =
+        document.getElementById(
+            "yearSelect"
+        );
+
+    const monthSelect =
+        document.getElementById(
+            "monthSelect"
+        );
+
+    const exportMachine =
+        document.getElementById(
+            "exportMachine"
+        );
+
+    const year =
+        new Date().getFullYear();
+
+    for(let y = year - 2; y <= year + 1; y++){
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+        option.value = y;
+        option.textContent = y;
+
+        yearSelect.appendChild(
+            option
+        );
+
+    }
+
+    yearSelect.value = year;
+
+    for(let m = 1; m <= 12; m++){
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+        option.value = m;
+        option.textContent = m;
+
+        monthSelect.appendChild(
+            option
+        );
+
+    }
+
+    monthSelect.value =
+        new Date().getMonth() + 1;
+
+    const machines =
+        [...new Set(
+            allLogs.map(
+                x => x.machine
+            )
+        )];
+
+    machines.forEach(machine => {
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+        option.value =
+            machine;
+
+        option.textContent =
+            machine;
+
+        exportMachine.appendChild(
+            option
+        );
+
+    });
+
+}
