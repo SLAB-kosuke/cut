@@ -319,93 +319,83 @@ ${data.memo || ""}
     });
 
 }
-
 async function openExcelExportDialog() {
-   try {
 
-console.log("step1 OK"); // 入力OK
-console.log("step2 OK"); // fetch前
-console.log("step3 OK"); // load後
-console.log("step4 OK"); // sheet取得後
-console.log("step5 OK"); // ダウンロード前
-    const machine =
-        document.getElementById("machineSearch")?.value;
+    try {
 
-    if (!machine) {
-        alert("設備を選択");
-        return;
-    }
+        console.log("step1 OK");
 
-    const year =
-        prompt("対象年を入力", new Date().getFullYear());
+        const machine =
+            document.getElementById("machineSearch")?.value;
 
-    if (!year) return;
+        console.log("step2 OK");
 
-    const month =
-        prompt("対象月を入力", new Date().getMonth() + 1);
+        const year =
+            prompt("対象年を入力", new Date().getFullYear());
 
-    if (!month) return;
+        const month =
+            prompt("対象月を入力", new Date().getMonth() + 1);
 
-    const targetLogs =
-        allLogs.filter(log => {
+        console.log("step3 OK");
 
-            if (log.machine !== machine) return false;
+        const targetLogs =
+            allLogs.filter(log => {
 
-            const logDate = new Date(log.date);
+                if (log.machine !== machine) return false;
 
-            return (
-                logDate.getFullYear() === Number(year) &&
-                logDate.getMonth() + 1 === Number(month)
-            );
+                const logDate = new Date(log.date);
 
+                return (
+                    logDate.getFullYear() === Number(year) &&
+                    logDate.getMonth() + 1 === Number(month)
+                );
+
+            });
+
+        console.log("step4 OK");
+        console.log("対象件数", targetLogs.length);
+
+        console.log("step5 OK - Excel開始");
+
+        console.log("ExcelJS:", window.ExcelJS);
+
+        const workbook = new ExcelJS.Workbook();
+
+        const response = await fetch("設備点検表.xlsx");
+
+        const arrayBuffer = await response.arrayBuffer();
+
+        await workbook.xlsx.load(arrayBuffer);
+
+        const sheet = workbook.getWorksheet("月1～年1");
+
+        if (!sheet) {
+            alert("シートが見つかりません");
+            return;
+        }
+
+        console.log("step6 OK - sheet取得");
+
+        const buffer = await workbook.xlsx.writeBuffer();
+
+        const blob = new Blob([buffer], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         });
 
-    console.log("対象件数", targetLogs.length);
+        const url = URL.createObjectURL(blob);
 
-    alert(`${targetLogs.length}件のデータが見つかりました`);
+        const a = document.createElement("a");
 
-    // =========================
-    // Excel出力処理
-    // =========================
+        a.href = url;
 
-    const workbook = new ExcelJS.Workbook();
+        a.download = `${machine}_${year}年${month}月.xlsx`;
 
-    const response = await fetch("設備点検表.xlsx");
+        a.click();
 
-    const arrayBuffer = await response.arrayBuffer();
+        URL.revokeObjectURL(url);
 
-    await workbook.xlsx.load(arrayBuffer);
-workbook.eachSheet((sheet) => {
-    console.log("シート名:", sheet.name);
-});
-    const sheet = workbook.getWorksheet("月1～年1");
-
-    if (!sheet) {
-        alert("シート『月1～年1』が見つかりません");
-        return;
-    }
-
-    // ★ここはまだ転記しない（次ステップ）
-
-    const buffer = await workbook.xlsx.writeBuffer();
-
-    const blob = new Blob([buffer], {
-        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    });
-
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-
-    a.href = url;
-
-    a.download = `${machine}_${year}年${month}月.xlsx`;
-
-    a.click();
-
-    URL.revokeObjectURL(url);
-} catch (e) {
+    } catch (e) {
         console.error(e);
-        alert("Excel出力エラー発生");
+        alert("Excel出力エラー");
     }
 }
