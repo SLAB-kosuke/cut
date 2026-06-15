@@ -321,7 +321,13 @@ ${data.memo || ""}
 }
 
 async function openExcelExportDialog() {
+   try {
 
+console.log("step1 OK"); // 入力OK
+console.log("step2 OK"); // fetch前
+console.log("step3 OK"); // load後
+console.log("step4 OK"); // sheet取得後
+console.log("step5 OK"); // ダウンロード前
     const machine =
         document.getElementById("machineSearch")?.value;
 
@@ -396,4 +402,8 @@ async function openExcelExportDialog() {
     a.click();
 
     URL.revokeObjectURL(url);
+} catch (e) {
+        console.error(e);
+        alert("Excel出力エラー発生");
+    }
 }
