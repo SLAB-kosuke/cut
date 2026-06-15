@@ -322,25 +322,24 @@ ${data.memo || ""}
 
 function openExcelExportDialog() {
 
-    const machines =
-        [...new Set(
-            allLogs.map(
-                x => x.machine
-            )
-        )]
-        .filter(Boolean);
+const machine =
+    document.getElementById(
+        "machineSearch"
+    )?.value;
 
-    const machine =
-        prompt(
-            "設備名を入力してください\n\n" +
-            machines.join("\n")
-        );
+if (!machine) {
 
-    if (!machine) return;
+    alert(
+        "設備を選択"
+    );
+
+    return;
+
+}
 
     const year =
         prompt(
-            "対象年を入力してください",
+            "対象年を入力",
             new Date().getFullYear()
         );
 
@@ -348,7 +347,7 @@ function openExcelExportDialog() {
 
     const month =
         prompt(
-            "対象月を入力してください",
+            "対象月を入力",
             new Date().getMonth() + 1
         );
 
