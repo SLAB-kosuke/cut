@@ -381,3 +381,4 @@ console.log(
 alert(
     `${targetLogs.length}件のデータが見つかりました`
 );
+}
