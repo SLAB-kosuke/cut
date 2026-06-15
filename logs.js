@@ -366,9 +366,12 @@ async function openExcelExportDialog() {
         const arrayBuffer = await response.arrayBuffer();
 
         await workbook.xlsx.load(arrayBuffer);
-
+　　　　workbook.eachSheet((sheet) => {
+    console.log("シート名:", sheet.name);
+});
+        console.log("sheet取得前");
         const sheet = workbook.getWorksheet("月1～年1");
-
+　　　　console.log("sheet=", sheet);
         if (!sheet) {
             alert("シートが見つかりません");
             return;
