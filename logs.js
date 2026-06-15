@@ -375,7 +375,9 @@ console.log("step5 OK"); // ダウンロード前
     const arrayBuffer = await response.arrayBuffer();
 
     await workbook.xlsx.load(arrayBuffer);
-
+workbook.eachSheet((sheet) => {
+    console.log("シート名:", sheet.name);
+});
     const sheet = workbook.getWorksheet("月1～年1");
 
     if (!sheet) {
