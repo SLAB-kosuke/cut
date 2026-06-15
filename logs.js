@@ -353,11 +353,31 @@ if (!machine) {
 
     if (!month) return;
 
-    alert(
-        `出力開始\n\n` +
-        `設備：${machine}\n` +
-        `年：${year}\n` +
-        `月：${month}`
-    );
+   const targetLogs =
+    allLogs.filter(log => {
 
-}
+        if (
+            log.machine !== machine
+        ) return false;
+
+        const logDate =
+            new Date(log.date);
+
+        return (
+            logDate.getFullYear()
+                === Number(year)
+            &&
+            logDate.getMonth() + 1
+                === Number(month)
+        );
+
+    });
+
+console.log(
+    "対象件数",
+    targetLogs.length
+);
+
+alert(
+    `${targetLogs.length}件のデータが見つかりました`
+);
