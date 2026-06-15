@@ -108,8 +108,6 @@ if (dateInput) {
 
     initializeAccordion();
 
-    loadLocalData();
-
     loadInspectionByDate();
 
     document
