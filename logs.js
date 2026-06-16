@@ -454,16 +454,26 @@ targetLogs.forEach(log => {
 
     (log.inspections || []).forEach(item => {
 
-        if (item.result !== "OK") return;
-
         const row =
             rowMap[item.item];
 
         if (!row) return;
 
-        sheet.getCell(
-            `${col}${row}`
-        ).value = "✓";
+        if (item.result === "OK") {
+
+            sheet.getCell(
+                `${col}${row}`
+            ).value = "✓";
+
+        }
+
+        if (item.result === "NG") {
+
+            sheet.getCell(
+                `${col}${row}`
+            ).value = "✕";
+
+        }
 
     });
 
