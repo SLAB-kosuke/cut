@@ -399,7 +399,7 @@ console.log("dailySheet=", dailySheet);
     if(value){
 
         console.log(
-            "日常～週",
+            "日常週",
             rowNumber,
             value
         );
@@ -535,7 +535,11 @@ targetLogs.forEach(log => {
         Number(
             log.date.split("-")[2]
         );
-
+console.log(
+    "日付確認",
+    log.date,
+    day
+);
     const col =
         String.fromCharCode(
             71 + (day - 1)
@@ -545,7 +549,12 @@ targetLogs.forEach(log => {
 
         const row =
             dailyWeekRowMap[item.item];
-
+console.log(
+    "日常週",
+    item.item,
+    row,
+    item.result
+);
         if (!row) return;
 
         if (item.result === "OK") {
