@@ -422,6 +422,21 @@ for(let col = 1; col <= 40; col++){
     );
 
 }
+        for(let col = 7; col <= 12; col++){
+
+    const cell =
+        dailySheet
+            .getRow(9)
+            .getCell(col)
+            .value;
+
+    console.log(
+        "DAY",
+        col,
+        cell?.result || cell
+    );
+
+}
 console.log("dailySheet=", dailySheet);
         sheet.eachRow((row, rowNumber) => {
 
