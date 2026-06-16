@@ -529,6 +529,44 @@ targetLogs.forEach(log => {
     "ワイヤー交換": 38
 
 };
+        targetLogs.forEach(log => {
+
+    const day =
+        Number(
+            log.date.split("-")[2]
+        );
+
+    const col =
+        String.fromCharCode(
+            71 + (day - 1)
+        );
+
+    (log.inspections || []).forEach(item => {
+
+        const row =
+            dailyWeekRowMap[item.item];
+
+        if (!row) return;
+
+        if (item.result === "OK") {
+
+            dailySheet
+                .getCell(`${col}${row}`)
+                .value = "✓";
+
+        }
+
+        if (item.result === "NG") {
+
+            dailySheet
+                .getCell(`${col}${row}`)
+                .value = "✕";
+
+        }
+
+    });
+
+});
         const buffer = await workbook.xlsx.writeBuffer();
 
         const blob = new Blob([buffer], {
