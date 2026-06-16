@@ -370,7 +370,12 @@ async function openExcelExportDialog() {
     console.log("シート名:", sheet.name);
 });
         console.log("sheet取得前");
+        
         const sheet = workbook.getWorksheet("月1～年1 ");
+        const dailySheet =
+    workbook.getWorksheet("日常～週");
+
+console.log("dailySheet=", dailySheet);
         sheet.eachRow((row, rowNumber) => {
 
     const value =
