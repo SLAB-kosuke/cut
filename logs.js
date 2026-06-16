@@ -374,9 +374,11 @@ async function openExcelExportDialog() {
         const sheet = workbook.getWorksheet("月1～年1 ");
         const dailySheet =
     workbook.getWorksheet("日常～週");
-sheet.getCell("W5").value = Number(month);
+sheet.getCell("W5").value =
+    `${month}月`;
 
-dailySheet.getCell("W5").value = Number(month);
+dailySheet.getCell("W5").value =
+    `${month}月`;
 console.log("dailySheet=", dailySheet);
         sheet.eachRow((row, rowNumber) => {
 
