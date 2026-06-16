@@ -371,6 +371,21 @@ async function openExcelExportDialog() {
 });
         console.log("sheet取得前");
         const sheet = workbook.getWorksheet("月1～年1 ");
+        sheet.eachRow((row, rowNumber) => {
+
+    const value =
+        row.getCell(2).value;
+
+    if (value) {
+
+        console.log(
+            rowNumber,
+            value
+        );
+
+    }
+
+});
 　　　　console.log("sheet=", sheet);
         if (!sheet) {
             alert("シートが見つかりません");
