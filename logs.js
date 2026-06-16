@@ -366,6 +366,9 @@ async function openExcelExportDialog() {
         const arrayBuffer = await response.arrayBuffer();
 
         await workbook.xlsx.load(arrayBuffer);
+
+workbook.calcProperties.fullCalcOnLoad = true;
+workbook.calcProperties.forceFullCalc = true;
 　　　　workbook.eachSheet((sheet) => {
     console.log("シート名:", sheet.name);
 });
@@ -375,17 +378,11 @@ async function openExcelExportDialog() {
         const dailySheet =
     workbook.getWorksheet("日常～週");
         
-sheet.getCell("W5").value = `${month}月`;
-dailySheet.getCell("W5").value = `${month}月`;
- console.log(
-    "月セル",
-    sheet.getCell("W5").value
-);
+sheet.getCell("T5").value = Number(year);
+sheet.getCell("W5").value = Number(month);
 
-console.log(
-    "月セル(日常)",
-    dailySheet.getCell("W5").value
-);       
+dailySheet.getCell("T5").value = Number(year);
+dailySheet.getCell("W5").value = Number(month);
 console.log(
     "W5 value",
     sheet.getCell("W5").value
