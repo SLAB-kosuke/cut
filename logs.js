@@ -333,7 +333,8 @@ async function openExcelExportDialog() {
       const year = prompt("対象年を入力", new Date().getFullYear());
 const month = prompt("対象月を入力", new Date().getMonth() + 1);
 
-if (year === null || month === null) {
+if (year === null || year === "" ||
+    month === null || month === "") {
     console.log("キャンセルされました");
     return;
 }
