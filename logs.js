@@ -391,6 +391,22 @@ console.log("dailySheet=", dailySheet);
     }
 
 });
+        dailySheet.eachRow((row,rowNumber)=>{
+
+    const value =
+        row.getCell(2).value;
+
+    if(value){
+
+        console.log(
+            "日常週",
+            rowNumber,
+            value
+        );
+
+    }
+
+});
 　　　　console.log("sheet=", sheet);
         if (!sheet) {
             alert("シートが見つかりません");
