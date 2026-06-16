@@ -379,10 +379,12 @@ const dailySheet =
     workbook.getWorksheet("日常～週");
 
 sheet.getCell("T5").value = Number(year);
+sheet.getCell("T5").numFmt = '0"年"';
 sheet.getCell("W5").value = Number(month);
 sheet.getCell("W5").numFmt = '0"月"';
 
 dailySheet.getCell("T5").value = Number(year);
+dailySheet.getCell("T5").numFmt = '0"年"';
 dailySheet.getCell("W5").value = Number(month);
 dailySheet.getCell("W5").numFmt = '0"月"';
 
