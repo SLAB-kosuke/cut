@@ -380,7 +380,15 @@ sheet.getCell("W5").value =
 
 dailySheet.getCell("W5").value =
     Number(month);
-        
+console.log(
+    "W5 value",
+    sheet.getCell("W5").value
+);
+
+console.log(
+    "W5 numFmt",
+    sheet.getCell("W5").numFmt
+);        
 console.log("dailySheet=", dailySheet);
         sheet.eachRow((row, rowNumber) => {
 
