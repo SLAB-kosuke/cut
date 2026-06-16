@@ -377,7 +377,15 @@ async function openExcelExportDialog() {
         
 sheet.getCell("W5").value = `${month}月`;
 dailySheet.getCell("W5").value = `${month}月`;
-        
+ console.log(
+    "月セル",
+    sheet.getCell("W5").value
+);
+
+console.log(
+    "月セル(日常)",
+    dailySheet.getCell("W5").value
+);       
 console.log(
     "W5 value",
     sheet.getCell("W5").value
