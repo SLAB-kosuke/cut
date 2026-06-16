@@ -535,16 +535,65 @@ targetLogs.forEach(log => {
         Number(
             log.date.split("-")[2]
         );
+            console.log(
+    "day",
+    day,
+    log.date
+);
 console.log(
     "日付確認",
     log.date,
     day
 );
-    const col =
-        String.fromCharCode(
-            71 + (day - 1)
-        );
+    const dayColMap = {
+    1:"G",
+    2:"H",
+    3:"I",
+    4:"J",
+    5:"K",
+    6:"L",
+    7:"M",
+    8:"N",
+    9:"O",
+    10:"P",
+    11:"Q",
+    12:"R",
+    13:"S",
+    14:"T",
+    15:"U",
+    16:"V",
+    17:"W",
+    18:"X",
+    19:"Y",
+    20:"Z",
+    21:"AA",
+    22:"AB",
+    23:"AC",
+    24:"AD",
+    25:"AE",
+    26:"AF",
+    27:"AG",
+    28:"AH",
+    29:"AI",
+    30:"AJ",
+    31:"AK"
+};
 
+const col =
+    dayColMap[day];
+            if(!col){
+
+    console.log(
+        "列取得失敗",
+        day
+    );
+
+    return;
+}
+console.log(
+    "col",
+    col
+);
     (log.inspections || []).forEach(item => {
 
         const row =
