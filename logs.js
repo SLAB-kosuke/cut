@@ -391,6 +391,28 @@ for(let col = 1; col <= 40; col++){
     }
 
 }
+        for(let row = 1; row <= 15; row++){
+
+    let values = [];
+
+    for(let col = 1; col <= 40; col++){
+
+        values.push(
+            dailySheet
+                .getRow(row)
+                .getCell(col)
+                .value
+        );
+
+    }
+
+    console.log(
+        "ROW",
+        row,
+        values
+    );
+
+}
 console.log("dailySheet=", dailySheet);
         sheet.eachRow((row, rowNumber) => {
 
