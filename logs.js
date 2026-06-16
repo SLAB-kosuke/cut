@@ -378,7 +378,54 @@ async function openExcelExportDialog() {
         }
 
         console.log("step6 OK - sheet取得");
+const monthColMap = {
+    4: "G",
+    5: "H",
+    6: "I",
+    7: "J",
+    8: "K",
+    9: "L",
+    10: "M",
+    11: "N",
+    12: "O",
+    1: "P",
+    2: "Q",
+    3: "R"
+};
 
+const rowMap = {
+    "ブレーキシューの確認": 12,
+    "加工液の交換": 21,
+    "グリスアップ（リニアガイド）": 31,
+    "フェルトパッドの交換": 35
+};
+
+targetLogs.forEach(log => {
+
+    const logMonth =
+        new Date(log.date).getMonth() + 1;
+
+    const col =
+        monthColMap[logMonth];
+
+    if (!col) return;
+
+    (log.inspections || []).forEach(item => {
+
+        if (item.result !== "OK") return;
+
+        const row =
+            rowMap[item.item];
+
+        if (!row) return;
+
+        sheet.getCell(
+            `${col}${row}`
+        ).value = "✓";
+
+    });
+
+});
         const buffer = await workbook.xlsx.writeBuffer();
 
         const blob = new Blob([buffer], {
