@@ -399,7 +399,7 @@ console.log("dailySheet=", dailySheet);
     if(value){
 
         console.log(
-            "日常週",
+            "日常～週",
             rowNumber,
             value
         );
