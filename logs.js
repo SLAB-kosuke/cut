@@ -374,7 +374,23 @@ async function openExcelExportDialog() {
         const sheet = workbook.getWorksheet("月1～年1 ");
         const dailySheet =
     workbook.getWorksheet("日常～週");
+for(let col = 1; col <= 40; col++){
 
+    const value =
+        dailySheet.getRow(10)
+        .getCell(col).value;
+
+    if(value){
+
+        console.log(
+            "row10",
+            col,
+            value
+        );
+
+    }
+
+}
 console.log("dailySheet=", dailySheet);
         sheet.eachRow((row, rowNumber) => {
 
