@@ -330,12 +330,13 @@ async function openExcelExportDialog() {
 
         console.log("step2 OK");
 
-        const year =
-            prompt("対象年を入力", new Date().getFullYear());
+      const year = prompt("対象年を入力", new Date().getFullYear());
+const month = prompt("対象月を入力", new Date().getMonth() + 1);
 
-        const month =
-            prompt("対象月を入力", new Date().getMonth() + 1);
-
+if (year === null || month === null) {
+    console.log("キャンセルされました");
+    return;
+}
         console.log("step3 OK");
 
         const targetLogs =
