@@ -331,10 +331,11 @@ async function openExcelExportDialog() {
         console.log("step2 OK");
 
       const year = prompt("対象年を入力", new Date().getFullYear());
-const month = prompt("対象月を入力", new Date().getMonth() + 1);
+　　　const month = prompt("対象月を入力", new Date().getMonth() + 1);
 
-if (year === null || year === "" ||
-    month === null || month === "") {
+console.log("入力値:", year, month);
+
+if (year == null || month == null || year === "" || month === "") {
     console.log("キャンセルされました");
     return;
 }
