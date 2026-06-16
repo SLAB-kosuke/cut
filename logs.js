@@ -413,6 +413,15 @@ for(let col = 1; col <= 40; col++){
     );
 
 }
+        for(let col = 6; col <= 37; col++){
+
+    console.log(
+        "DATE",
+        col,
+        dailySheet.getRow(9).getCell(col).value
+    );
+
+}
 console.log("dailySheet=", dailySheet);
         sheet.eachRow((row, rowNumber) => {
 
