@@ -374,16 +374,19 @@ workbook.calcProperties.forceFullCalc = true;
 });
         console.log("sheet取得前");
         
-        const sheet = workbook.getWorksheet("月1～年1 ");
-        const dailySheet =
+ const sheet = workbook.getWorksheet("月1～年1 ");
+const dailySheet =
     workbook.getWorksheet("日常～週");
-        
+
 sheet.getCell("T5").value = Number(year);
 sheet.getCell("W5").value = Number(month);
+sheet.getCell("W5").numFmt = '0"月"';
 
 dailySheet.getCell("T5").value = Number(year);
 dailySheet.getCell("W5").value = Number(month);
-console.log(
+dailySheet.getCell("W5").numFmt = '0"月"';
+
+        console.log(
     "W5 value",
     sheet.getCell("W5").value
 );
