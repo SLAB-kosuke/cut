@@ -136,12 +136,16 @@ if (dateInput) {
             }
         );
 
-    document
-        .getElementById("excelBtn")
-        ?.addEventListener(
-            "click",
-            generatePrint
-        );
+  document
+    .getElementById("statusBtn")
+    ?.addEventListener(
+        "click",
+        () => {
+
+            alert("稼働状況機能は作成中");
+
+        }
+    );
 
 });
 
