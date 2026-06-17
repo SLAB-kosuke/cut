@@ -135,41 +135,6 @@ if (dateInput) {
 
             }
         );
-document
-    .getElementById("runningBtn")
-    ?.addEventListener(
-        "click",
-        () => {
-
-            document
-                .getElementById("runningBtn")
-                .classList.add("active");
-
-            document
-                .getElementById("stoppedBtn")
-                .classList.remove("active");
-
-        }
-    );
-
-document
-    .getElementById("stoppedBtn")
-    ?.addEventListener(
-        "click",
-        () => {
-
-            document
-                .getElementById("stoppedBtn")
-                .classList.add("active");
-
-            document
-                .getElementById("runningBtn")
-                .classList.remove("active");
-
-        }
-    );
- 
-});
 
 /* =========================
    日付変更
