@@ -135,7 +135,51 @@ if (dateInput) {
 
             }
         );
+let operationStatus = "";
 
+const operationBtn =
+    document.getElementById(
+        "operationBtn"
+    );
+
+operationBtn?.addEventListener(
+    "click",
+    () => {
+
+        if (operationStatus === "") {
+
+            operationStatus = "RUN";
+
+            operationBtn.textContent =
+                "稼働";
+
+            operationBtn.classList.add(
+                "active"
+            );
+
+        }
+        else if (
+            operationStatus === "RUN"
+        ) {
+
+            operationStatus = "STOP";
+
+            operationBtn.textContent =
+                "非稼働";
+
+        }
+        else {
+
+            operationStatus = "RUN";
+
+            operationBtn.textContent =
+                "稼働";
+
+        }
+
+    }
+);
+    });
 /* =========================
    日付変更
 ========================= */
