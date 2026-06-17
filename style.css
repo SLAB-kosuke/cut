@@ -266,3 +266,15 @@ textarea{
     }
 
 }
+.status-buttons{
+    display:flex;
+    gap:8px;
+}
+
+.status-btn{
+    opacity:0.5;
+}
+
+.status-btn.active{
+    opacity:1;
+}
