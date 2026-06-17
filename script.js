@@ -135,18 +135,40 @@ if (dateInput) {
 
             }
         );
-
-  document
-    .getElementById("statusBtn")
+document
+    .getElementById("runningBtn")
     ?.addEventListener(
         "click",
         () => {
 
-            alert("稼働状況機能は作成中");
+            document
+                .getElementById("runningBtn")
+                .classList.add("active");
+
+            document
+                .getElementById("stoppedBtn")
+                .classList.remove("active");
 
         }
     );
 
+document
+    .getElementById("stoppedBtn")
+    ?.addEventListener(
+        "click",
+        () => {
+
+            document
+                .getElementById("stoppedBtn")
+                .classList.add("active");
+
+            document
+                .getElementById("runningBtn")
+                .classList.remove("active");
+
+        }
+    );
+ 
 });
 
 /* =========================
