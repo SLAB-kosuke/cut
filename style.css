@@ -278,3 +278,14 @@ textarea{
 .status-btn.active{
     opacity:1;
 }
+#operationBtn{
+
+    opacity:0.4;
+
+}
+
+#operationBtn.active{
+
+    opacity:1;
+
+}
