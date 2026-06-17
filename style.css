@@ -268,7 +268,11 @@ textarea{
 }
 
 #operationBtn{
-width:100%;
+
+    flex:1;
+    background:#f59e0b;
+    color:white;
+
     opacity:0.4;
 
 }
