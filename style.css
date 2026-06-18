@@ -300,3 +300,6 @@ textarea{
 
     background:#dcdcdc;
 }
+input[type="date"]{
+    max-width:100%;
+}
