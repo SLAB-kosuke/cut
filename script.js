@@ -179,7 +179,7 @@ operationBtn?.addEventListener(
 
     }
 );
-    });
+
 /* =========================
    日付変更
 ========================= */
@@ -533,7 +533,6 @@ async function loadInspectionByDate() {
 
     }
 
-}
 operationStatus = "";
 
 if (operationBtn) {
