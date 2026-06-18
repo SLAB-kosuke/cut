@@ -176,8 +176,7 @@ if (dateInput) {
                 "稼働";
 
         }
-
-    }
+  }
 );
 });
 
@@ -533,6 +532,7 @@ async function loadInspectionByDate() {
         console.error(error);
 
     }
+ }
 
 /* =========================
    画面クリア
