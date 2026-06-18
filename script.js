@@ -533,18 +533,6 @@ async function loadInspectionByDate() {
 
     }
 
-operationStatus = "";
-
-if (operationBtn) {
-
-    operationBtn.textContent =
-        "稼働";
-
-    operationBtn.classList.remove(
-        "active"
-    );
-
-}
 /* =========================
    画面クリア
 ========================= */
