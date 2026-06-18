@@ -451,6 +451,7 @@ async function saveInspection() {
                 date,
                 worker,
                 memo,
+                operationStatus,
                 inspections,
 
                 updatedAt:
