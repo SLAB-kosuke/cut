@@ -288,6 +288,10 @@ textarea{
     grid-template-columns:1fr 1fr;
     gap:12px;
 }
+
+.basic-info-grid .form-group{
+    min-width:0;
+}
 .operation-btn{
     width:100%;
     height:48px;
