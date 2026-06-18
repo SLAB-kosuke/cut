@@ -533,7 +533,18 @@ async function loadInspectionByDate() {
     }
 
 }
+operationStatus = "";
 
+if (operationBtn) {
+
+    operationBtn.textContent =
+        "稼働";
+
+    operationBtn.classList.remove(
+        "active"
+    );
+
+}
 /* =========================
    画面クリア
 ========================= */
@@ -587,7 +598,45 @@ function restoreInspectionData(data) {
         .getElementById("memo")
         .value =
         data.memo || "";
+operationStatus =
+    data.operationStatus || "";
 
+if (operationBtn) {
+
+    if (operationStatus === "RUN") {
+
+        operationBtn.textContent =
+            "稼働";
+
+        operationBtn.classList.add(
+            "active"
+        );
+
+    }
+    else if (
+        operationStatus === "STOP"
+    ) {
+
+        operationBtn.textContent =
+            "非稼働";
+
+        operationBtn.classList.add(
+            "active"
+        );
+
+    }
+    else {
+
+        operationBtn.textContent =
+            "稼働";
+
+        operationBtn.classList.remove(
+            "active"
+        );
+
+    }
+
+}
     const rows =
         document.querySelectorAll(".item-row");
 
