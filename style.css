@@ -303,3 +303,7 @@ textarea{
 input[type="date"]{
     max-width:100%;
 }
+#inspectionDate{
+    width:100%;
+    max-width:100%;
+}
