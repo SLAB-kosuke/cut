@@ -9,6 +9,12 @@ import {
 /* =========================
    点検マスタ
 ========================= */
+let operationStatus = "";
+
+const operationBtn =
+    document.getElementById(
+        "operationBtn"
+    );
 const inspectionData = {
 
     dailyList: [
@@ -135,14 +141,8 @@ if (dateInput) {
 
             }
         );
-let operationStatus = "";
 
-const operationBtn =
-    document.getElementById(
-        "operationBtn"
-    );
-
-operationBtn?.addEventListener(
+    operationBtn?.addEventListener(
     "click",
     () => {
 
