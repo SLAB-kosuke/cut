@@ -547,7 +547,15 @@ console.log("clearInspectionData実行");
     document
         .getElementById("memo")
         .value = "";
-   
+   operationStatus = "";
+
+if (operationBtn) {
+
+    operationBtn.textContent = "稼働";
+
+    operationBtn.classList.remove("active");
+
+}
     document
         .querySelectorAll(".item-row")
         .forEach(row => {
