@@ -615,6 +615,29 @@ const col =
 
     return;
 }
+            if (log.operationStatus === "RUN") {
+
+    dailySheet
+        .getCell(`${col}11`)
+        .value = "✓";
+
+}
+else if (
+    log.operationStatus === "STOP"
+) {
+
+    dailySheet
+        .getCell(`${col}11`)
+        .value = "／";
+
+}
+else {
+
+    dailySheet
+        .getCell(`${col}11`)
+        .value = "－";
+
+}
 console.log(
     "col",
     col
