@@ -547,10 +547,7 @@ function clearInspectionData() {
     document
         .getElementById("memo")
         .value = "";
-
-    operationStatus = "";
-　　updateOperationButton();
-    
+   
     document
         .querySelectorAll(".item-row")
         .forEach(row => {
