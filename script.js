@@ -539,7 +539,7 @@ async function loadInspectionByDate() {
 ========================= */
 
 function clearInspectionData() {
-
+console.log("clearInspectionData実行");
     document
         .getElementById("worker")
         .value = "";
