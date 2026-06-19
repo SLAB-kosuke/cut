@@ -674,7 +674,10 @@ if (operationBtn) {
                 saved.comment || "";
 
         });
-
+console.log(
+    "restore",
+    operationStatus
+);
 }
 /* =========================
    ローカル保存
