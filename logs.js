@@ -621,7 +621,6 @@ const col =
         .getCell(`${col}11`)
         .value = "✓";
 
-);
 }
 else if (
     log.operationStatus === "STOP"
@@ -637,11 +636,6 @@ else {
     dailySheet
         .getCell(`${col}11`)
         .value = "－";
-dailySheet
-    .getCell(`${col}11`)
-    .font = {
-        strike: false
-    };
 }
 console.log(
     "col",
