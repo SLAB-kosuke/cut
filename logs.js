@@ -638,6 +638,11 @@ else {
         .value = "－";
 }
 console.log(
+    "11行目font",
+    dailySheet.getCell(`${col}11`).font
+);
+            
+console.log(
     "col",
     col
 );
@@ -660,7 +665,12 @@ console.log(
                 .value = "✓";
 
         }
-
+        
+console.log(
+    `${col}${row}`,
+    dailySheet.getCell(`${col}${row}`).font
+);
+        
         if (item.result === "NG") {
 
             dailySheet
