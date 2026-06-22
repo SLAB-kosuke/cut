@@ -638,8 +638,8 @@ else {
         .value = "－";
 }
 console.log(
-    "11行目font",
-    dailySheet.getCell(`${col}11`).font
+    "12行目font",
+    dailySheet.getCell(`${col}12`).font
 );
             
 console.log(
