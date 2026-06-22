@@ -620,7 +620,9 @@ const col =
     dailySheet
         .getCell(`${col}11`)
         .value = "✓";
-
+console.log(
+    dailySheet.getCell(`${col}${row}`).font
+);
 }
 else if (
     log.operationStatus === "STOP"
