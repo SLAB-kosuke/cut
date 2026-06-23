@@ -774,6 +774,6 @@ console.log("pdfArea", pdfArea);
 <p>${year}年 ${month}月</p>
 <p>件数：${targetLogs.length}</p>
 `;
-
+console.log(pdfArea.innerHTML);
 pdfArea.style.display = "block";
 }
