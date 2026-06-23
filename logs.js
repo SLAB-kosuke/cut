@@ -769,11 +769,21 @@ const pdfArea =
     document.getElementById("pdfArea");
 
 console.log("pdfArea", pdfArea);
-    pdfArea.innerHTML = `
+   pdfArea.innerHTML = `
 <h1>設備点検表</h1>
 <p>${year}年 ${month}月</p>
 <p>件数：${targetLogs.length}</p>
 `;
+
+targetLogs.forEach(log => {
+
+    pdfArea.innerHTML += `
+        <div>
+            ${log.date}
+        </div>
+    `;
+
+});
 
 pdfArea.style.display = "block";
 }
