@@ -717,6 +717,20 @@ console.log(
 console.log("ここまで読めた");
 function openPdfExportDialog() {
 
-    console.log("PDF開始");
+    const year = prompt(
+        "対象年を入力",
+        new Date().getFullYear()
+    );
+
+    const month = prompt(
+        "対象月を入力",
+        new Date().getMonth() + 1
+    );
+
+    console.log(
+        "PDF対象",
+        year,
+        month
+    );
 
 }
