@@ -47,7 +47,18 @@ document.addEventListener(
                   );
     }
 );
+document
+    .getElementById(
+        "pdfExportBtn"
+    )
+    ?.addEventListener(
+        "click",
+        ()=>{
 
+            alert("PDF準備中");
+
+        }
+    );
 async function loadLogs() {
 
     const snap =
