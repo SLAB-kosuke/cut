@@ -45,9 +45,7 @@ document.addEventListener(
                 "click",
                 openExcelExportDialog
                   );
-    }
-);
-document
+        document
     .getElementById(
         "pdfExportBtn"
     )
@@ -59,6 +57,9 @@ document
 
         }
     );
+    }
+);
+
 async function loadLogs() {
 
     const snap =
