@@ -788,11 +788,4 @@ targetLogs.forEach(log => {
 
 pdfArea.style.display = "block";
 
-const canvas =
-    await html2canvas(pdfArea);
-
-console.log(
-    "canvas",
-    canvas
-);
 }
