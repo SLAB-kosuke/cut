@@ -765,5 +765,8 @@ function openPdfExportDialog() {
         "PDF対象件数",
         targetLogs.length
     );
+const pdfArea =
+    document.getElementById("pdfArea");
 
+console.log("pdfArea", pdfArea);
 }
