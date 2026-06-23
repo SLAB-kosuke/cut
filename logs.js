@@ -778,8 +778,9 @@ console.log("pdfArea", pdfArea);
 targetLogs.forEach(log => {
 
     pdfArea.innerHTML += `
-        <div>
-            ${log.date}
+        <div style="border:1px solid #000;padding:5px;margin-bottom:5px;">
+            <div>日付：${log.date}</div>
+            <div>点検者：${log.worker || ""}</div>
         </div>
     `;
 
