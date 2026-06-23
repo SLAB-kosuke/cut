@@ -45,17 +45,13 @@ document.addEventListener(
                 "click",
                 openExcelExportDialog
                   );
-        document
+      document
     .getElementById(
         "pdfExportBtn"
     )
     ?.addEventListener(
         "click",
-        ()=>{
-
-            alert("PDF準備中");
-
-        }
+        openPdfExportDialog
     );
         console.log("pdfBtn",
     document.getElementById("pdfExportBtn")
