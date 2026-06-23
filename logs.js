@@ -370,8 +370,6 @@ if (year == null || month == null || year === "" || month === "") {
 
         await workbook.xlsx.load(arrayBuffer);
 
-workbook.calcProperties.fullCalcOnLoad = true;
-workbook.calcProperties.forceFullCalc = true;
 　　　　workbook.eachSheet((sheet) => {
     console.log("シート名:", sheet.name);
 });
