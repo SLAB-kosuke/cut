@@ -787,5 +787,13 @@ targetLogs.forEach(log => {
 });
 
 pdfArea.style.display = "block";
+html2canvas(pdfArea)
+    .then(canvas => {
 
+        console.log(
+            "canvas",
+            canvas
+        );
+
+    });
 }
