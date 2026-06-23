@@ -714,6 +714,7 @@ console.log(
         alert("Excel出力エラー");
     }
 }
+console.log("ここまで読めた");
 function openPdfExportDialog() {
 
     console.log("PDF開始");
