@@ -714,7 +714,7 @@ console.log(
         alert("Excel出力エラー");
     }
 }
-console.log("ここまで読めた");
+
 function openPdfExportDialog() {
 
     const year = prompt(
