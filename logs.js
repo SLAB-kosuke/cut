@@ -57,6 +57,9 @@ document.addEventListener(
 
         }
     );
+        console.log("pdfBtn",
+    document.getElementById("pdfExportBtn")
+);
     }
 );
 
