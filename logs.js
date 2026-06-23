@@ -717,6 +717,11 @@ console.log(
 
 function openPdfExportDialog() {
 
+    const machine =
+        document.getElementById(
+            "machineSearch"
+        )?.value;
+
     const year = prompt(
         "対象年を入力",
         new Date().getFullYear()
@@ -727,10 +732,38 @@ function openPdfExportDialog() {
         new Date().getMonth() + 1
     );
 
+    if (
+        year == null ||
+        month == null ||
+        year === "" ||
+        month === ""
+    ) {
+        return;
+    }
+
+    const targetLogs =
+        allLogs.filter(log => {
+
+            if (
+                log.machine !== machine
+            ) return false;
+
+            const logDate =
+                new Date(log.date);
+
+            return (
+                logDate.getFullYear() ===
+                Number(year)
+                &&
+                logDate.getMonth() + 1 ===
+                Number(month)
+            );
+
+        });
+
     console.log(
-        "PDF対象",
-        year,
-        month
+        "PDF対象件数",
+        targetLogs.length
     );
 
 }
