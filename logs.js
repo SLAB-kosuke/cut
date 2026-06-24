@@ -681,6 +681,55 @@ console.log(
     });
 
 });
+const ngCommentCells = [
+    "G41",
+    "G42",
+    "G43",
+    "Q41",
+    "Q42",
+    "Q43",
+    "AA41",
+    "AA42",
+    "AA43"
+];
+
+const ngComments = [];
+
+targetLogs.forEach(log => {
+
+    (log.inspections || []).forEach(item => {
+
+        if (
+            item.result === "NG" &&
+            item.comment
+        ) {
+
+            const day =
+                Number(
+                    log.date.split("-")[2]
+                );
+
+            ngComments.push(
+                `${day}/${month} ${item.comment}`
+            );
+
+        }
+
+    });
+
+});
+
+ngComments
+    .slice(0, 9)
+    .forEach((text, index) => {
+
+        dailySheet
+            .getCell(
+                ngCommentCells[index]
+            )
+            .value = text;
+
+    });
         const buffer = await workbook.xlsx.writeBuffer();
 
         const blob = new Blob([buffer], {
