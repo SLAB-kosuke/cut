@@ -796,9 +796,27 @@ pdfArea.style.display = "block";
 html2canvas(pdfArea)
     .then(canvas => {
 
-        console.log(
-            "canvas",
-            canvas
+        const imgData =
+            canvas.toDataURL("image/png");
+
+        const pdf =
+            new jspdf.jsPDF(
+                "p",
+                "mm",
+                "a4"
+            );
+
+        pdf.addImage(
+            imgData,
+            "PNG",
+            0,
+            0,
+            210,
+            297
+        );
+
+        pdf.save(
+            `設備点検表_${year}_${month}.pdf`
         );
 
     });
