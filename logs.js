@@ -826,5 +826,7 @@ pdf.text(
 pdf.save(
     `設備点検表_${year}_${month}.pdf`
 );
-}
+    });
+    
+    }
           
