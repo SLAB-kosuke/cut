@@ -46,9 +46,6 @@ document.addEventListener(
                 openExcelExportDialog
                   );
       
-        console.log("pdfBtn",
-    document.getElementById("pdfExportBtn")
-);
     }
 );
 
