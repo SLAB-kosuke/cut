@@ -710,8 +710,8 @@ targetLogs.forEach(log => {
                 );
 
             ngComments.push(
-                `${day}/${month} ${item.comment}`
-            );
+ 　　　　　   `${month}/${day} ${item.comment}`
+　　　　　　);
 
         }
 
