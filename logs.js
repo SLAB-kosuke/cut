@@ -799,25 +799,33 @@ html2canvas(pdfArea)
         const imgData =
             canvas.toDataURL("image/png");
 
-        const pdf =
-            new jspdf.jsPDF(
-                "p",
-                "mm",
-                "a4"
-            );
+       const imgData =
+    canvas.toDataURL("image/png");
 
-        pdf.addImage(
-            imgData,
-            "PNG",
-            0,
-            0,
-            210,
-            297
-        );
+const pdf =
+    new jspdf.jsPDF(
+        "p",
+        "mm",
+        "a4"
+    );
 
-        pdf.save(
-            `設備点検表_${year}_${month}.pdf`
-        );
+pdf.addImage(
+    imgData,
+    "PNG",
+    0,
+    0,
+    210,
+    297
+);
 
-    });
-}
+pdf.addPage();
+
+pdf.text(
+    "月1～年1ページ",
+    20,
+    20
+);
+
+pdf.save(
+    `設備点検表_${year}_${month}.pdf`
+);
