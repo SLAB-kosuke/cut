@@ -818,7 +818,7 @@ pdf.addImage(
 pdf.addPage();
 pdf.setFontSize(20);
 pdf.text(
-    "月1～年1ページ",
+    "Page 2",
     20,
     20
 );
