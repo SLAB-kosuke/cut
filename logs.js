@@ -762,17 +762,22 @@ function openPdfExportDialog() {
         });
 
     console.log(
-        "PDF対象件数",
-        targetLogs.length
-    );
+    "PDF対象件数",
+    targetLogs.length
+);
+
 const pdfArea =
     document.getElementById("pdfArea");
 
-console.log("pdfArea", pdfArea);
-   pdfArea.innerHTML = `
+console.log(
+    "pdfArea",
+    pdfArea
+);
+
+pdfArea.innerHTML = `
 <h1>設備点検表</h1>
-<p>${year}年 ${month}月</p>
-<p>件数：${targetLogs.length}</p>
+<h2>日常～週</h2>
+<hr>
 `;
 
 targetLogs.forEach(log => {
@@ -787,6 +792,7 @@ targetLogs.forEach(log => {
 });
 
 pdfArea.style.display = "block";
+
 html2canvas(pdfArea)
     .then(canvas => {
 
@@ -796,4 +802,3 @@ html2canvas(pdfArea)
         );
 
     });
-}
