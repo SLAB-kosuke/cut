@@ -796,9 +796,6 @@ pdfArea.style.display = "block";
 html2canvas(pdfArea)
     .then(canvas => {
 
-        const imgData =
-            canvas.toDataURL("image/png");
-
        const imgData =
     canvas.toDataURL("image/png");
 
