@@ -45,14 +45,7 @@ document.addEventListener(
                 "click",
                 openExcelExportDialog
                   );
-      document
-    .getElementById(
-        "pdfExportBtn"
-    )
-    ?.addEventListener(
-        "click",
-        openPdfExportDialog
-    );
+      
         console.log("pdfBtn",
     document.getElementById("pdfExportBtn")
 );
