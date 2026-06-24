@@ -776,7 +776,13 @@ console.log(
 
 pdfArea.innerHTML = `
 <h1>設備点検表</h1>
+
+<div>
+${year}年 ${month}月
+</div>
+
 <h2>日常～週</h2>
+
 <hr>
 `;
 
