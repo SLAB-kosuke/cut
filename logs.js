@@ -802,3 +802,4 @@ html2canvas(pdfArea)
         );
 
     });
+}
