@@ -774,6 +774,16 @@ console.log(
     pdfArea
 );
 
+let dayHeader = "";
+
+for(let i = 1; i <= 31; i++){
+
+    dayHeader += `
+        <th>${i}</th>
+    `;
+
+}
+
 pdfArea.innerHTML = `
 <h1>設備点検表</h1>
 
@@ -783,7 +793,17 @@ ${year}年 ${month}月
 
 <h2>日常～週</h2>
 
-<hr>
+<table border="1"
+       cellspacing="0"
+       cellpadding="3"
+       style="border-collapse:collapse;font-size:10px;">
+
+<tr>
+    <th>項目</th>
+    ${dayHeader}
+</tr>
+
+</table>
 `;
 
 targetLogs.forEach(log => {
