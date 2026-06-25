@@ -539,6 +539,8 @@ if (
         `${logMonth}月 ${item.comment}`;
 
 }
+            commentCountMap[row] =
+    count + 1;
         }
 
     });
