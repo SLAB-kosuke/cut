@@ -528,7 +528,17 @@ targetLogs.forEach(log => {
 
     const commentCol =
         commentCols[count];
+if (
+    commentCol &&
+    item.comment
+) {
 
+    sheet.getCell(
+        `${commentCol}${row}`
+    ).value =
+        `${logMonth}月 ${item.comment}`;
+
+}
         }
 
     });
