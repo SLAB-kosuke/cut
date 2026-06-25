@@ -506,7 +506,7 @@ const commentCols = [
 ];
 
 const commentCountMap = {};
-targetLogs.forEach(log => {
+yearlyLogs.forEach(log => {
 
     const logMonth =
         new Date(log.date).getMonth() + 1;
