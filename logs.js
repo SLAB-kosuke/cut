@@ -463,6 +463,11 @@ console.log("dailySheet=", dailySheet);
 );
 
     });
+        yearlyLogs.sort(
+    (a, b) =>
+        new Date(a.date) -
+        new Date(b.date)
+);
 const monthColMap = {
     4: "G",
     5: "H",
