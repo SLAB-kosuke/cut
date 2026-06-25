@@ -446,9 +446,21 @@ console.log("dailySheet=", dailySheet);
         const logDate =
             new Date(log.date);
 
-        return (
-            logDate.getFullYear() === Number(year)
-        );
+       return (
+
+    (
+        logDate.getFullYear() === Number(year) &&
+        logDate.getMonth() + 1 >= 4
+    )
+
+    ||
+
+    (
+        logDate.getFullYear() === Number(year) + 1 &&
+        logDate.getMonth() + 1 <= 3
+    )
+
+);
 
     });
 const monthColMap = {
