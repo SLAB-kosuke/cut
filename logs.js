@@ -562,12 +562,29 @@ if (
     commentCol &&
     item.comment
 ) {
-const logDay =
-    new Date(log.date).getDate();
+
+    const logDay =
+        new Date(log.date).getDate();
+
     sheet.getCell(
         `${commentCol}${row}`
     ).value =
-     `${logMonth}/${logDay} ${item.comment}`
+        `${logMonth}/${logDay} ${item.comment}`;
+
+}
+else if (
+    item.comment
+) {
+
+    const logDay =
+        new Date(log.date).getDate();
+
+    const acCell =
+        sheet.getCell(`AC${row}`);
+
+    acCell.value =
+        (acCell.value || "") +
+        `　${logMonth}/${logDay} ${item.comment}`;
 
 }
             commentCountMap[row] =
