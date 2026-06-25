@@ -736,10 +736,11 @@ targetLogs.forEach(log => {
 
     (log.inspections || []).forEach(item => {
 
-        if (
-            item.result === "NG" &&
-            item.comment
-        ) {
+       if (
+    item.result === "NG" &&
+    item.comment &&
+    dailyWeekItems.includes(item.item)
+) {
 
             const day =
                 Number(
