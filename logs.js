@@ -730,7 +730,8 @@ const ngCommentCells = [
 ];
 
 const ngComments = [];
-
+const dailyWeekItems =
+    Object.keys(dailyWeekRowMap);
 targetLogs.forEach(log => {
 
     (log.inspections || []).forEach(item => {
