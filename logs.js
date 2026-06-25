@@ -523,6 +523,11 @@ targetLogs.forEach(log => {
             sheet.getCell(
                 `${col}${row}`
             ).value = "✕";
+ const count =
+        commentCountMap[row] || 0;
+
+    const commentCol =
+        commentCols[count];
 
         }
 
