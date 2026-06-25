@@ -438,6 +438,19 @@ console.log("dailySheet=", dailySheet);
         }
 
         console.log("step6 OK - sheet取得");
+        const yearlyLogs =
+    allLogs.filter(log => {
+
+        if (log.machine !== machine) return false;
+
+        const logDate =
+            new Date(log.date);
+
+        return (
+            logDate.getFullYear() === Number(year)
+        );
+
+    });
 const monthColMap = {
     4: "G",
     5: "H",
