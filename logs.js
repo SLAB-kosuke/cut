@@ -486,7 +486,13 @@ const rowMap = {
 
     "フェルトパッドの交換": 35
 };
+const commentCols = [
+    "S",
+    "X",
+    "AC"
+];
 
+const commentCountMap = {};
 targetLogs.forEach(log => {
 
     const logMonth =
