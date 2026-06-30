@@ -824,3 +824,34 @@ ngComments
         alert("Excel出力エラー");
     }
 }
+function createStampImage(name) {
+
+    const canvas = document.createElement("canvas");
+    canvas.width = 220;
+    canvas.height = 220;
+
+    const ctx = canvas.getContext("2d");
+
+    // 背景透明
+    ctx.clearRect(0, 0, 220, 220);
+
+    const stampColor = "#D04A02"; // 朱色
+
+    // 外円
+    ctx.strokeStyle = stampColor;
+    ctx.lineWidth = 7;
+
+    ctx.beginPath();
+    ctx.arc(110, 110, 92, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // 文字
+    ctx.fillStyle = stampColor;
+    ctx.font = "bold 44px serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    ctx.fillText(name, 110, 110);
+
+    return canvas.toDataURL("image/png");
+}
