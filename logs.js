@@ -853,5 +853,7 @@ function createStampImage(name) {
 
     ctx.fillText(name, 110, 110);
 
-    return canvas.toDataURL("image/png");
+   return canvas
+    .toDataURL("image/png")
+    .split(",")[1];
 }
