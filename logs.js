@@ -801,6 +801,86 @@ ngComments
             .value = text;
 
     });
+        /* =========================
+   電子印（日常～週・月1～年1）
+========================= */
+
+// ---------- 日常～週 ----------
+const lastWorkerByDay = {};
+
+targetLogs.forEach(log => {
+
+    if (!log.worker) return;
+
+    const day = Number(log.date.split("-")[2]);
+
+    lastWorkerByDay[day] = log.worker;
+
+});
+
+Object.entries(lastWorkerByDay).forEach(([day, worker]) => {
+
+    const col = dayColMap[day];
+
+    if (!col) return;
+
+    const imageId = workbook.addImage({
+        base64: createStampImage(worker),
+        extension: "png"
+    });
+
+    dailySheet.addImage(imageId, {
+        tl: {
+            col: dailySheet.getColumn(col).number - 1,
+            row: 39
+        },
+        ext: {
+            width: 34,
+            height: 34
+        }
+    });
+
+});
+
+
+// ---------- 月1～年1 ----------
+const lastWorkerByMonth = {};
+
+targetLogs.forEach(log => {
+
+    if (!log.worker) return;
+
+    const logDate = new Date(log.date);
+
+    const logMonth = logDate.getMonth() + 1;
+
+    lastWorkerByMonth[logMonth] = log.worker;
+
+});
+
+Object.entries(lastWorkerByMonth).forEach(([m, worker]) => {
+
+    const col = monthColMap[m];
+
+    if (!col) return;
+
+    const imageId = workbook.addImage({
+        base64: createStampImage(worker),
+        extension: "png"
+    });
+
+    monthlySheet.addImage(imageId, {
+        tl: {
+            col: monthlySheet.getColumn(col).number - 1,
+            row: 37
+        },
+        ext: {
+            width: 34,
+            height: 34
+        }
+    });
+
+});
         const buffer = await workbook.xlsx.writeBuffer();
 
         const blob = new Blob([buffer], {
