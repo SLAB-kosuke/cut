@@ -767,7 +767,7 @@ const ngComments = [];
 const dailyWeekItems =
     Object.keys(dailyWeekRowMap);
 targetLogs.forEach(log => {
-console.log(log);
+
     (log.inspections || []).forEach(item => {
 
        if (
@@ -801,119 +801,6 @@ ngComments
             .value = text;
 
     });
-        const dayColMap = {
-    1:"G",
-    2:"H",
-    3:"I",
-    4:"J",
-    5:"K",
-    6:"L",
-    7:"M",
-    8:"N",
-    9:"O",
-    10:"P",
-    11:"Q",
-    12:"R",
-    13:"S",
-    14:"T",
-    15:"U",
-    16:"V",
-    17:"W",
-    18:"X",
-    19:"Y",
-    20:"Z",
-    21:"AA",
-    22:"AB",
-    23:"AC",
-    24:"AD",
-    25:"AE",
-    26:"AF",
-    27:"AG",
-    28:"AH",
-    29:"AI",
-    30:"AJ",
-    31:"AK"
-};
-        /* =========================
-   電子印（日常～週・月1～年1）
-========================= */
-
-// ---------- 日常～週 ----------
-const lastWorkerByDay = {};
-
-targetLogs.forEach(log => {
-
-    if (!log.worker) return;
-
-    const day = Number(log.date.split("-")[2]);
-
-    lastWorkerByDay[day] = log.worker;
-
-});
-
-Object.entries(lastWorkerByDay).forEach(([day, worker]) => {
-
-    const col = dayColMap[day];
-
-    if (!col) return;
-
-    const imageId = workbook.addImage({
-        base64: createStampImage(worker),
-        extension: "png"
-    });
-
-    dailySheet.addImage(imageId, {
-        tl: {
-            col: dailySheet.getColumn(col).number - 1,
-            row: 39
-        },
-        ext: {
-            width: 34,
-            height: 34
-        }
-    });
-
-});
-
-
-// ---------- 月1～年1 ----------
-const lastWorkerByMonth = {};
-
-targetLogs.forEach(log => {
-
-    if (!log.worker) return;
-
-    const logDate = new Date(log.date);
-
-    const logMonth = logDate.getMonth() + 1;
-
-    lastWorkerByMonth[logMonth] = log.worker;
-
-});
-
-Object.entries(lastWorkerByMonth).forEach(([m, worker]) => {
-
-    const col = monthColMap[m];
-
-    if (!col) return;
-
-    const imageId = workbook.addImage({
-        base64: createStampImage(worker),
-        extension: "png"
-    });
-
-    monthlySheet.addImage(imageId, {
-        tl: {
-            col: monthlySheet.getColumn(col).number - 1,
-            row: 37
-        },
-        ext: {
-            width: 34,
-            height: 34
-        }
-    });
-
-});
         const buffer = await workbook.xlsx.writeBuffer();
 
         const blob = new Blob([buffer], {
@@ -936,37 +823,4 @@ Object.entries(lastWorkerByMonth).forEach(([m, worker]) => {
         console.error(e);
         alert("Excel出力エラー");
     }
-}
-function createStampImage(name) {
-
-    const canvas = document.createElement("canvas");
-    canvas.width = 220;
-    canvas.height = 220;
-
-    const ctx = canvas.getContext("2d");
-
-    // 背景透明
-    ctx.clearRect(0, 0, 220, 220);
-
-    const stampColor = "#D04A02"; // 朱色
-
-    // 外円
-    ctx.strokeStyle = stampColor;
-    ctx.lineWidth = 7;
-
-    ctx.beginPath();
-    ctx.arc(110, 110, 92, 0, Math.PI * 2);
-    ctx.stroke();
-
-    // 文字
-    ctx.fillStyle = stampColor;
-    ctx.font = "bold 44px serif";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-
-    ctx.fillText(name, 110, 110);
-
-   return canvas
-    .toDataURL("image/png")
-    .split(",")[1];
 }
