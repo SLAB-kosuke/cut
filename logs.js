@@ -767,7 +767,7 @@ const ngComments = [];
 const dailyWeekItems =
     Object.keys(dailyWeekRowMap);
 targetLogs.forEach(log => {
-
+console.log(log);
     (log.inspections || []).forEach(item => {
 
        if (
