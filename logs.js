@@ -1,6 +1,3 @@
-const canvas = document.createElement("canvas");
-console.log(canvas);
-console.log(canvas.getContext("2d"));
 import {
     db,
     collection,
